@@ -130,6 +130,7 @@ eof
 
     if ($logged_in) {
         print_feed();
+        buffer_details();
     }
     
     print page_trailer();
@@ -155,6 +156,7 @@ sub buffer_details(){
         }
     }
     close $p;
+
 }
 
 sub print_login {
