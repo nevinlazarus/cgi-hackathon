@@ -958,15 +958,16 @@ eof
 
 sub post_write {
     %info = {};
-    $info["KTP"] = $information["KTP"];
-    $info["name"] = $information["name"];
-    $info["id"] = param("id");
-    $info["location"] = param("location");
-    $info["description"] = param("description");
+    $info{"KTP"} = $information{"KTP"};
+    $info{"name"} = $information{"name"};
+    $info{"id"} = param("id");
+    $info{"location"} = param("location");
+    $info{"description"} = param("description");
 
+    $file = "/bleats/".$info{"id"}.".txt";
     print $info["description"];
 
-    open (FILE, '>'."/bleats/$info['id'].txt") or die "\nunable to create\n";
+    open (FILE, '>'.$file)or die "\nunable to create\n";
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
@@ -975,6 +976,7 @@ sub post_write {
     }
     close FILE;
 }
+
 
 main();
 
