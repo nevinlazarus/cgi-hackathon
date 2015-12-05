@@ -99,6 +99,7 @@ eof
 			 param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                         $logged_in = 1;
+                        $cookies{'auth'} = param('username');
                     } else {
                         print_login();
                         print "Wrong Password\n";
@@ -113,7 +114,7 @@ eof
         }
     }    
     
-    %cookies = fetch CGI::Cookie;
+    #%cookies = fetch CGI::Cookie;
     
     if (defined param("post_write") && param("post_write") eq "True"){
     	post_write();
@@ -149,9 +150,9 @@ eof
 #---------------------------------------------------#
 #buffer the information hash
 sub buffer_details(){
-    my $username = $cookies{"auth"}->value;
+    my $username = $cookies{'auth'}->value;
     print "Logged in as $username\n";
-    my $details_filename  = "./$users_dir/$username/details.txt";
+    my $details_filename = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
         chomp $line;
