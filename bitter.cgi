@@ -909,7 +909,7 @@ sub page_trailer {
 
 sub send_notification_email() {
         my @list=();
-        my $related = $info{"location"};
+        my $related = $info{"tag"};
 
         #retrieve email or organisation
         open F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
@@ -1043,7 +1043,7 @@ sub post_write {
     }
     close FILE;
 
-    if($info{"location"}){
+    if($info{"tag"}){
         send_notification_email();
     }
 
