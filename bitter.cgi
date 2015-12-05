@@ -114,7 +114,7 @@ sub main() {
     
     if (param('approve')) {
         approve(param('approve'));        
-    } elsif {
+    } else if {
         disapprove(param('disapprove'));        
     }
     
