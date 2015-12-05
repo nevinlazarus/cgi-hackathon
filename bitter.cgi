@@ -112,7 +112,11 @@ eof
     
     %cookies = fetch CGI::Cookie;
     
-    print post();
+    if (param("post_write") eq "True"){
+	post_write();
+    } else {
+	print post();
+    }
 
     if (param('confirm_user')) {
     	create_user_account();
@@ -191,7 +195,7 @@ sub send_account_confirm {
 	my $newusr = param('sign_user');
 
         #check if username exists
-	if (-d "$users_dir/$username" || -d "$users_dir/temp/$username") {
+	if (-d "$users_dir/$newusr" || -d "$users_dir/temp/$newusr") {
 		print "Username is already taken";
 		return;
 	}
@@ -936,11 +940,10 @@ sub post {
     return <<eof
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
-    Descri[tion: <input type="text" name="description">
-    Locaiton/Organisation: <input type="text" name="location" id="tags">
-    #<input type="hidden" name="KTP" value=$KTP>
-    #<input type="hidden" name="name" value=$name>
+    Description: <input type="text" name="description">
+    Locaiton/Organisation: <input type="text" name="location">
     <input type="hidden" name="id" value=$id>
+    <input type="hidden" name="post_write" value="True">
     <input type="submit" name="submit">
 </form>
 eof
@@ -960,11 +963,8 @@ sub post_write {
         if ($i ne "id"){
             print FILE $info[$i];
 	    }
-        
     }
-
     close FILE;
-
 }
 
 main();
