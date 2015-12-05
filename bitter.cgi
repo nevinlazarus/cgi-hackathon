@@ -121,7 +121,7 @@ sub main() {
     print page_trailer();
 }
 
-approve($) {
+sub approve($) {
     $id = $_[0];
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
@@ -148,7 +148,7 @@ approve($) {
     }
 }
 
-disapprove($) {
+sub disapprove($) {
     $id = $_[0];
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
