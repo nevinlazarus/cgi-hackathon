@@ -866,7 +866,7 @@ sub post_write {
     $info["location"] = param("location");
     $info["description"] = param("description");
     
-    open(FILE, "$info["id"].txt")
+    open(FILE, "$info["id"].txt");
 
     foreach $i (keys sort %info){
         if ($i eq "id"){
