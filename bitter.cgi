@@ -979,7 +979,6 @@ sub post_write {
     $info{"description"} = param("description");
 
     $file = "/bleats/".$info{"id"}.".txt";
-    print $info{"description"};
 
     open (FILE, '>',".$file") or die "\nunable to create .$file\n";
     
