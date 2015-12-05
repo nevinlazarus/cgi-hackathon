@@ -709,7 +709,7 @@ sub profile() {
             <h2> $username </h2>
             $details
         </form>
-        $listen_buttons
+        
     </div>
 </td>
 <td>
