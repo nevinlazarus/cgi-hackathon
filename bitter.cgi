@@ -88,7 +88,7 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
-    post;
+    post();
 	
     if (param('confirm_user')) {
     	create_user_account();
@@ -930,13 +930,13 @@ sub post_write {
     $info["location"] = param("location");
     $info["description"] = param("description");
     
-    open (FILE, '>'."$info['id'].txt") or die "\nunable to create\n";
+    open (FILE, '>'."/bleats/$info['id'].txt") or die "\nunable to create\n";
     
     foreach $i (sort(keys %info)){
-        if ($i eq "id"){
-            continue;
+        if ($i ne "id"){
+            print FILE $info[$i];
 	    }
-        print FILE $info[$i];
+        
     }
 
     close FILE;
