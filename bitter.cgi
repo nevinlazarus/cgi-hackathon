@@ -878,7 +878,7 @@ sub post_write {
     
     open FILE, '>'."$info["id"].txt") or die "\nunable to create\n";
     
-    foreach $i (sort keys %info){
+    foreach $i (sort(keys %info)){
         if ($i eq "id"){
             continue;
 	    }
