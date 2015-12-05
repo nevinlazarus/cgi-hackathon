@@ -938,6 +938,7 @@ sub post {
     #my $name = $information["name"];
     my $id = localtime;
     $id =~ s/[^\d]//g;
+    print $id;
     return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
@@ -958,7 +959,7 @@ sub post_write {
     $info["location"] = param("location");
     $info["description"] = param("description");
 
-    print $info["id"];
+    print $info["description"];
 
     open (FILE, '>'."/bleats/$info['id'].txt") or die "\nunable to create\n";
     
