@@ -129,7 +129,6 @@ eof
 
     if ($logged_in) {
         print post();
-        print_feed();
         if (param("Search")){
     	    search_feed(param("Search"));
         } else {
