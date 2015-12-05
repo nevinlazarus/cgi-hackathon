@@ -900,6 +900,7 @@ Content-Type: text/html
       <ul class="nav navbar-nav">
         <li><inputPost<span class="sr-only">(current)</span></a></li>
         <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
+        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -922,6 +923,8 @@ Content-Type: text/html
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<div class="container">
 eof
 }
 
@@ -931,6 +934,7 @@ eof
 # if global variable $debug is set
 #
 sub page_trailer {
+    print "</div>\n";
     my $html = "";
     $html .= join("", map("<!-- $_=".param($_)." -->\n", param())) if $debug;
     $html .= end_html;
