@@ -736,7 +736,7 @@ sub show_comp() {
     my $toShow = $information{'username'};
     my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
-    open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
+    open my $p, ">", "$bleats_filename" or die "can not open $bleats_filename: $!";
         while (my $line = <$p>){
             chomp $line;
             push @bleatstoprint, "$line";
