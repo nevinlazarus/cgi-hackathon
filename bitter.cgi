@@ -434,7 +434,7 @@ sub search(){
     print submit('search','Search'), "\n";
     print end_form, "\n";
     print "</div>\n";
-    $keyword = quotemeta "$query";
+    $keyword = quo  eta "$query";
     $directory = quotemeta"$users_dir";
     $bleatdir = quotemeta"$bleats_dir";
     if (defined $keyword && $keyword ne ''){
@@ -552,26 +552,25 @@ sub search(){
 sub search_results {
 	my $name = param('search_term'); #the search term
 	my $n = 0;
-    my $user_index = 0;
-    my $match = 0;
-    print "<div> <h2> Search Results for ".param('search_term')." </h2>";
+        my $user_index = 0;
+        my $match = 0;
+        print "<div> <h2> Search Results for ".param('search_term')." </h2>";
 	for my $user_folder (sort(glob("$users_dir/*"))) { #for each user
-		$match = 0;
-		open $user, $user_folder."/details.txt"; #open their details file
-		(my $username = $user_folder) =~ s/$users_dir\///; #remove the directory name
-		
-		if ($username =~ /$name/i) { #matches the username
-            $match = 1;
+            $match = 0;
+            open $user, $user_folder."/details.txt"; #open their details file
+            (my $username = $user_folder) =~ s/$users_dir\///; #remove the directory name
+
+	    if ($username =~ /$name/i) { #matches the username
+                $match = 1;
 			
-		} else { #check if matches the users full name
-			for (<$user>) {
-				if (/full_name:.*$name/i) {
-                    $match = 1;
-					
-                    last;
-				}
-			}
-		}
+            } else { #check if matches the users full name
+                for (<$user>) {
+                    if (/full_name:.*$name/i) {
+                        $match = 1;			
+                        last;
+                    }
+                }
+            }
         if ($match) {
             $user_index++;
             if ($user_index <= ($PAGE_INDEX * $NUM_RESULTS)) {
@@ -637,7 +636,7 @@ sub user_page {
     my $details_filename = "$user_to_show/details.txt";
     my $image_filename = "$user_to_show/profile.jpg";
     open F, "$details_filename" or die "can not open $details_filename: $!";
-	my $details;
+    my $details;
     for (sort <F>) { 
         if (!defined $_) {
             next;
@@ -688,7 +687,7 @@ eof
     }
     close F;
     my $next_user = $n + 1;
-	my $prev_user = $n - 1;
+    my $prev_user = $n - 1;
     (my $username = $user_to_show) =~ s/.*\///;
     print <<eof;	
 
@@ -720,14 +719,14 @@ eof
 <td>
     <div>
 eof
-	print_bleats($user_to_show);
+    print_bleats($user_to_show);
     print "</div></td><tr></table>";
 }
 
 
 
 sub print_bleats($) {
-	$user_to_show = $_[0];
+    $user_to_show = $_[0];
     
     open my $user, "$user_to_show/details.txt";
     my $listeners = "";
