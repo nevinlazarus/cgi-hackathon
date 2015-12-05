@@ -935,7 +935,7 @@ sub post_write {
         if ($i eq "id"){
             continue;
 	    }
-        print FILE $info{$i};
+        print FILE $info[$i];
     }
 
     close FILE;
