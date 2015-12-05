@@ -970,10 +970,10 @@ sub print_feed() {
 
         for $line (<F>) {
             print "<p>";        
-            print "$line"; #print out the contents of the complaint
+            print "$line\n"; #print out the contents of the complaint
             print "</p>";        
         }
-    
+        close F;
     }    
 }
 
