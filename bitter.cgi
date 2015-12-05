@@ -89,9 +89,6 @@ sub main() {
     if (defined param("post_write") && param("post_write") eq "True"){
     	post_write();
     }
-
-    
-
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
@@ -863,11 +860,12 @@ Content-Type: text/html
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="btn-group">
       <ul class="nav navbar-nav">
         <li><inputPost<span class="sr-only">(current)</span></a></li>
-        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></button></li>
-        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
-      </ul>
+        <li><button type="submit" class="btn btn-default" value="formpage"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></button></li>
+        <li><button type="submit" class="btn btn-default" value="pastlog"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
+      </ul></div>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" name="Search">
