@@ -81,6 +81,10 @@ sub main() {
             }
         }
     }
+    print "<h1> I'm Testing </h1>";
+    print_feed();
+    search_feed();
+    
     
     %cookies = fetch CGI::Cookie;
     
@@ -802,6 +806,7 @@ sub send_notification_email() {
 	close(MAIL);    
 }
 
+#prints out a feed of complaints
 sub print_feed() {
     #for each complaint
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
