@@ -901,14 +901,15 @@ sub send_notification_email() {
 #prints out a feed of complaints
 sub print_feed() {
     #for each complaint
-    for $complaint_file (sort(glob("$bleats_dir/*"))) {
-        print $complaint_file;
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {        
         open(F, $complaint_file) or break; 
-        print "<label>";
+
         for $line (<F>) {
+            print "<label>";        
             print "$line\n"; #print out the contents of the complaint
+            print "</label>";        
         }
-        print "</label>";        
+    
     }    
 }
 
