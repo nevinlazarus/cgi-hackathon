@@ -811,17 +811,45 @@ sub page_trailer {
 }
 
 sub send_notification_email() {
-    
+    my $email = "nevin.lazarus\@gmail.com";
+	my $from = "z5019263\@cse.unsw.edu.au";
+	my $subject = "Complaint";
+	my $message = "You've received a complaint!";
+	open(MAIL, "|/usr/sbin/sendmail -t");
+	# Email Header
+	print MAIL "To: $email\n";
+	print MAIL "From: $from\n";
+	print MAIL "Subject: $subject\n\n";
+	# Email Body
+	print MAIL $message;
+	close(MAIL);    
 }
 
+
 sub Ret {
+    my $KTP = $information["KTP"];
+    my $name = $information["name"];
     return <<eof
 <form method="POST">
+    <input style="display:inline-block" type="file" name="upload">
+    <input style="display:inline-block" type="submit" name="upload" value="Upload profile pic">
+
     <input type="text" name="description">
+    <input type="hidden" name="KTP" value=$KTP>
+    <input type="hidden" name="name" value=$name>
+    
+
+
+
+
     <input type="submit" name="submit">
+
+
 </form>
 
 eof
 }
+
+
 main();
 
