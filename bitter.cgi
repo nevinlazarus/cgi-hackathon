@@ -128,13 +128,15 @@ eof
     }
 
     if ($logged_in) {
+        buffer_details();
         print post();
         if (param("Search")){
     	    search_feed(param("Search"));
+        } elsif ($information('org') eq "true"){
+            print profile();
         } else {
             print_feed();
         }
-        buffer_details();
     }
     
     print page_trailer();
@@ -456,7 +458,7 @@ sub search_bleats {
 } 
 
 sub search(){
-    $query = param('query');
+    $query = param('Suery');
     print "<div class=\"search\">";
     print start_form, "\n";
     print "Search \n", textfield('query'), "\n";
@@ -659,7 +661,10 @@ eof
 # Show unformatted details for user "n".
 # Increment parameter n and store it as a hidden variable
 #
-sub user_page {
+sub profile {
+    ##### =>  Complaint list to show is:
+    ##### ./$users_dir/$related/list.txt
+
     my $n = param('n') || 0;
     @users = sort(glob("$users_dir/*"));
 	
@@ -897,8 +902,10 @@ sub page_trailer {
 }
 
 sub send_notification_email() {
-
+        my @list=();
         my $related = $info{"location"};
+
+        #retrieve email or organisation
         open my F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
         while(my $line = <F>){
             chomp $line;
@@ -906,6 +913,22 @@ sub send_notification_email() {
                 my $groupemail = $1;
             }
         }
+        close F;
+        push @list, "$info{id}\n"
+
+        #read/copy list of complaint IDs
+        open my FILE, "./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt: $!";
+        while(my $line = <F>){
+            push @list, $line;
+        }
+        close FILE;
+
+        #add new complaint id and overwrite list.txt
+        open my G, '>',"./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt";
+        foreach $element (@list){
+            print G "$element";
+        }
+        close G;
 
         #random link currently. change later. should redirect to a page that shows one complaint
         my $link = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi?viewId=$info{id}";
