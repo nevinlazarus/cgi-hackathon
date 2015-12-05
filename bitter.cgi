@@ -154,6 +154,9 @@ sub buffer_details(){
     %cookies = fetch CGI::Cookie;
 
     my $username = $cookies{'auth'}->value;
+    if ($username == 0) {
+        return;
+    }
     print "Logged in as $username\n";
     my $details_filename = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
