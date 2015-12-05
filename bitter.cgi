@@ -46,7 +46,8 @@ sub main() {
     foreach $user (sort(glob("$users_dir/*"))) {
         open(F, $user) or die;
         #if is an organisation {
-        $organisations .= "$organisation_name,"; 
+        $user =~ s/.*\///;
+        $organisations .= $user;
             
         #}
         
@@ -126,6 +127,10 @@ eof
     } elsif (param('signup')) {
 	sign_up_screen();
         org_sign_up();
+    }
+    
+    if ($logged_in) {
+        print_feed();
     }
     
     print page_trailer();
