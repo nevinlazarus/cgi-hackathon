@@ -937,7 +937,7 @@ sub post {
     #my $name = $information["name"];
     my $id = localtime;
     $id =~ s/[^\d]//g;
-    return <<eof
+    return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
     Description: <input type="text" name="description">
