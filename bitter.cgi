@@ -132,7 +132,7 @@ eof
         print post();
         if (param("Search")){
     	    search_feed(param("Search"));
-        } elsif ($information('org') eq "true"){
+        } elsif ($information{'org'} eq "true"){
             print profile();
         } else {
             print_feed();
@@ -980,7 +980,7 @@ sub send_notification_email() {
             }
         }
         close F;
-        push @list, "$info{id}\n"
+        push @list, $info{'id'}."\n"
 
         #read/copy list of complaint IDs
         open my FILE, "./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt: $!";
