@@ -10,7 +10,7 @@ use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 use Mail::Sendmail;
 use File::Copy;
 
-%information = {};
+%information = ();
 sub main() {
     # print start of HTML ASAP to assist debugging if there is an error in the script
     print page_header();
