@@ -41,7 +41,6 @@ sub main() {
     $PAGE_INDEX = param('page_index') || 0;
     
     #logging out
-    
     if (param('logout')) {
         print "<script>document.cookie='auth=0; path=/'</script>";
         %cookies = fetch CGI::Cookie;
@@ -86,9 +85,9 @@ sub main() {
     %cookies = fetch CGI::Cookie;
     
 	
-	if (param('confirm_user')) {
-		create_user_account();
-	}
+    if (param('confirm_user')) {
+    	create_user_account();
+    }
     
     if (param('sign_user') && (param('sign_pass') eq param('confirm_pass')) && param('sign_email') =~ /\@/) {
 		send_account_confirm();
@@ -99,26 +98,30 @@ sub main() {
     print page_trailer();
 }
 
+
+#complete!
 sub create_user_account {
 	my $new_user = param('confirm_user');
 	my $new_pass = param('password');
 	my $new_email = param('email');
 	my $uniqId = param('uniqId');
-	mkdir "$users_dir/$new_user";
-	open DETAILS, ">$users_dir/$new_user/details.txt";
+        my $org = param('group');
+        mkdir("./$users_dir/temp/$new_user");
+	open DETAILS, ">$users_dir/temp/$new_user/details.txt";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
 	print DETAILS "idnum: $uniqId\n";
         print DETAILS "org: $org\n";
 	close DETAILS;
-	
 }
 
 sub send_account_confirm {
 	my $email = param('sign_email');
 	my $username = param('sign_user');
-	if (-d "$users_dir/$username") {
+
+        #check if username exists
+	if (-d "$users_dir/$username" || -d "$users_dir/temp/$username") {
 		print "Username is already taken";
 		return;
 	}
@@ -139,6 +142,7 @@ sub send_account_confirm {
 	close(MAIL);
 	
 }
+
 sub org_sign_up{
     print "<br><br><h3>Create a new account</h3><p>";
     print "<div class=\"subtitle\">Only alphanumeric  characters, underscores and dashes are allowed<p> for username and password, to a maximum of 30 characters.</div><p>";
@@ -322,9 +326,170 @@ sub send_message {
     close BLEAT_LIST;
 }
 
+#---------------------------------------------------#
+# GENERAL FUNCTIONS                                 #
+#---------------------------------------------------#
+sub list_users(){
+    my @users = <./$users_dir/*>;
+    my $directory = quotemeta"$users_dir";
+    @users = grep(!/temporary/,@users);
+    foreach my $user (@users) {
+               $user =~ s/\.\/$directory\///;
+               print '<form method="POST" action="">';
+               print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
+               print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
+               print "<input type=\"submit\" name=\"userprofile\" value=\"$user\" class=\"user_button\">\n";
+               print "</form>";
+    
+    }
+    return;
+}
+
+sub search(){
+    $query = param('query');
+    print "<div class=\"search\">";
+    print start_form, "\n";
+    print "Search \n", textfield('query'), "\n";
+    print hidden('username',"$username"),"\n";
+    print hidden('loggedin',"$loggedIn"),"\n";
+    print submit('search','Search'), "\n";
+    print end_form, "\n";
+    print "</div>\n";
+    $keyword = quotemeta "$query";
+    $directory = quotemeta"$users_dir";
+    $bleatdir = quotemeta"$bleats_dir";
+    if (defined $keyword && $keyword ne ''){
+
+        
+        #check users
+        print "<h4>Related Users</h4>";
+        
+        
+        #match by username
+        my @users = <./$users_dir/*>;
+        %userresults = ();
+        foreach $user (@users){
+            open   (F, "$user/details.txt");
+            while (my $detail = <F>){
+                if ($detail =~ /^full_name: (.*)/){
+                    my $fullname = $1;
+                    if (($fullname =~ /$keyword/i || $user =~ /$keyword/i)){
+                        $user =~ s/\.\/$directory\///;
+                        $userresults{"$user"} = $fullname;
+                    }      
+                }
+               
+            }
+            close F;
+        
+        }
+       
+        print "<div class=\"results\"\n>";
+
+       if (%userresults){
+            
+            foreach my $key (keys %userresults) {
+               print '<form method="POST" action="">';
+               print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
+               print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
+               print "<input type=\"submit\" name=\"userprofile\" value=\"$key\" class=\"profile_button\">\n";
+               print "</form>";
+               print "Full name: $userresults{$key}\n";
+                
+            }
+        } else {
+            print "nothing found!\n";
+        }
+        print "</div><p><br>";
+        
+        #check bleats
+        print "<h4>Related Bleats</h4>";
+        my @files = <./$bleats_dir/*>;
+        $yes = 0;
+        foreach my $file (@files) {
+
+            @onebleat = ();
+            open   (FILE, "$file");
+            push @onebleat, "<div class=\"bitter_user_bleats\"\n>";
+            while(my $line= <FILE> ){
+                chomp $line;
+                if ($line =~ /^bleat: (.*)/){
+                    $tocheck = $1;
+                    if ($tocheck =~ /$keyword/i){
+                        $yes = 1;
+                    } else {
+                        $yes = 0;
+                    }   
+                    push @onebleat, "<b>$tocheck</b>\n";
+                } elsif($line =~ /^time: (.*)/){
+                    $difference = $1;
+                    $dt = DateTime->new( year       => 1970,
+                                          month      => 1,
+                                          day        => 1,
+                                          time_zone  => "Australia/Sydney",
+                                         );
+                    $dt->add(seconds => $difference);
+                    $dt =~ s/T/ /;
+                    push @onebleat, "$dt\n";
+                } elsif ($line =~ /^username: (.*)/){
+                    
+                    $bleater = $1;
+
+  
+                } elsif ($line =~ /(^longitude: )|(^latitude: )/){
+                    #ignore
+                } else {
+                    push @onebleat, "$line\n";
+                }
+            }
+            close FILE;
+            push @onebleat, '<form method="POST" action="">';
+            push @onebleat, "<input type=\"hidden\" name=\"username\" value=\"$username\">";
+            push @onebleat, "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
+            push @onebleat, "<input type=\"submit\" name=\"userprofile\" value=\"$bleater\" class=\"profile_button\">";
+            push @onebleat, "</form>";
+            $element = $file;
+            $element =~ s/\.\/$bleatdir\///;
+            push @onebleat, '<form method="POST" action="">';
+            push @onebleat, "<input type=\"hidden\" name=\"username\" value=\"$username\">";
+            push @onebleat, "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
+            push @onebleat, "<input type=\"hidden\" name=\"bleattoshow\" value=\"$element\" >";
+            push @onebleat, "<input type=\"submit\" name=\"userprofile\" value=\"reply\" class=\"profile_button\">";
+            push @onebleat, "</form>";
+
+            push @onebleat, "</div>\n";
+            if ($yes == 1){
+                $bleatresult = join '', @onebleat;
+                push @bleats, $bleatresult;
+            } 
+            
+        }
+        foreach $thingy (@bleats){
+            print "$thingy";
+        }
+    }
+    return;
+}
+
+sub buffer_details(){
+    my $user_to_show  = "./$users_dir/$username";
+    my $details_filename = "$user_to_show/details.txt";
+    open my $p, "$details_filename" or die "can not open $details_filename: $!";
+    while (my $line = <$p>){
+        chomp $line;
+        if ($line =~ /^listens: (.*)/){
+            @listens = split(' ',$1);
+            #$information{"listens"}= \@listens;
+        }elsif($line =~ /([^:]+): (.*)/){
+            $information{"$1"}= "$2";
+        }
+    }
+    close $p;
+}
+
 sub print_login {
-	#<input type="submit" value="Forgot Password" class="btn"> TODO add later
-	print <<END_OF_HTML;
+    #<input type="submit" value="Forgot Password" class="btn"> TODO add later
+    print <<END_OF_HTML;
 <div class='nav'>
     <form method="POST" action="">
         <label>Username:</label>
@@ -333,17 +498,17 @@ sub print_login {
         <input type="password" name="password">
         <input type="submit" value="Login" class="btn">
     </form>
-	<form method="POST" action="">
-		<input type="hidden" name="signup" value=1>
-		<input type="submit" value="Sign-up" class="btn">
-	</form>
+    <form method="POST" action="">
+        <input type="hidden" name="signup" value=1>
+        <input type="submit" value="Sign-up" class="btn">
+    </form>
 </div>
 END_OF_HTML
     $logged_in = 0;
 }
 
 sub print_logout {
-	print <<END_OF_HTML;
+    print <<END_OF_HTML;
 <div class='nav' >
     <form method="POST" action="">
         <input type="hidden" name="logout" value="1">
