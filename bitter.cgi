@@ -96,10 +96,10 @@ eof
                     $password_line =~ s/ //g;
                     if ($password eq $password_line) {
                         print "<script>document.cookie='auth=".param('username')."; path=/'</script>";
-			 param('n', $name_to_int{param('username')}); #gets the number associated with the username
+			            param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                         $logged_in = 1;
-                        $cookies{'auth'} = param('username');
+                        %cookies = fetch CGI::Cookie;
                     } else {
                         print_login();
                         print "Wrong Password\n";
@@ -129,7 +129,7 @@ eof
         org_sign_up();
     }
 
-    if ($logged_in && $cookies{'auth'} ne '0') {
+    if ($logged_in && defined $cookies{'auth'} && $cookies{'auth'} ne '0') {
         buffer_details();
         print post();
         if (param("Search")){
@@ -151,6 +151,8 @@ eof
 #---------------------------------------------------#
 #buffer the information hash
 sub buffer_details(){
+    %cookies = fetch CGI::Cookie;
+
     my $username = $cookies{'auth'}->value;
     print "Logged in as $username\n";
     my $details_filename = "./$users_dir/$username/details.txt";
@@ -886,7 +888,7 @@ Content-Type: text/html
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">jlkj;lkj<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Settings</a></li>
             <li><a href="#">Log out</a></li>
