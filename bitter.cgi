@@ -943,6 +943,7 @@ sub post {
     #my $name = $information["name"];
     my $id = localtime;
     $id =~ s/[^\d]//g;
+    print $id;
     return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
@@ -957,15 +958,16 @@ eof
 
 sub post_write {
     %info = {};
-    $info["KTP"] = $information["KTP"];
-    $info["name"] = $information["name"];
-    $info["id"] = param("id");
-    $info["location"] = param("location");
-    $info["description"] = param("description");
+    $info{"KTP"} = $information{"KTP"};
+    $info{"name"} = $information{"name"};
+    $info{"id"} = param("id");
+    $info{"location"} = param("location");
+    $info{"description"} = param("description");
 
-    print $info["id"];
+    $file = "/bleats/".$info{"id"}.".txt";
+    print $info["description"];
 
-    open (FILE, '>'."/bleats/$info['id'].txt") or die "\nunable to create\n";
+    open (FILE, '>'.$file)or die "\nunable to create\n";
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
@@ -974,6 +976,7 @@ sub post_write {
     }
     close FILE;
 }
+
 
 main();
 
