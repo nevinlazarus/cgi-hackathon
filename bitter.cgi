@@ -998,6 +998,8 @@ sub post_write {
 	    }
     }
     close FILE;
+    send_notification_email();
+    
 }
 
 
