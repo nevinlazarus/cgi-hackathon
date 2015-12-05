@@ -76,7 +76,7 @@ eof
         %cookies = fetch CGI::Cookie;
         print_login();
     } else {
-        if (defined $cookies{'auth'} && $cookies{'auth'}->value ne '0') { #logged in already
+        if (defined $cookies{'auth'} && $cookies{'auth'}->value != 0) { #logged in already
             $logged_in = 1;
             print_logout();
         } else {
@@ -969,6 +969,7 @@ sub print_feed() {
         open(F, $complaint_file) or break; 
 
         for $line (<F>) {
+            if ($line =~ /^(KTP|name)/) next;
             print "<p>";        
             print "$line\n"; #print out the contents of the complaint
             print "</p>";        
@@ -986,14 +987,16 @@ sub search_feed($) {
         open(F, $complaint_file) or break; 
         $print_complaint = 0;
         for $line (<F>) {
+            if ($line =~ /^(KTP|name)/) next;
             if ($line =~ /$search_term/) {
                 $print_complaint = 1;
             } 
         }
         if ($print_complaint) { #if the file contains the search term
-
+    
             open(F, $complaint_file) or break;             
             for $line (<F>) {
+                if ($line =~ /^(KTP|name)/) next;
                 print "<p>";        
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
