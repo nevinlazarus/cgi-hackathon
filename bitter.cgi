@@ -905,7 +905,7 @@ sub print_feed() {
         print $complaint_file;
         open(F, $complaint_file) or break; 
         print "<label>";
-        for (<F>) {
+        for $line (<F>) {
             print "$line\n"; #print out the contents of the complaint
         }
         print "</label>";        
