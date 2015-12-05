@@ -10,7 +10,7 @@ use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 use Mail::Sendmail;
 use File::Copy;
 
-%information = {};
+%information = ();
 sub main() {
     # print start of HTML ASAP to assist debugging if there is an error in the script
     print page_header();
@@ -143,6 +143,7 @@ eof
 #buffer the information hash
 sub buffer_details(){
     my $username = $cookies{"auth"}->value;
+    print "Logged in as $username\n";
     my $details_filename  = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
@@ -156,7 +157,10 @@ sub buffer_details(){
         }
     }
     close $p;
+    foreach $key (keys %information){
+        print "$key -> $information{$key}\n";
 
+    }
 }
 
 sub print_login {
@@ -977,8 +981,8 @@ eof
 
 sub post_write {
     %info = {};
-    $info{"KTP"} = $information{"KTP"};
-    $info{"name"} = $information{"name"};
+    $info{"KTP"} = $information{"idnum"};
+    $info{"name"} = $information{"username"};
     $info{"id"} = param("id");
     $info{"location"} = param("location");
     $info{"description"} = param("description");
@@ -990,7 +994,7 @@ sub post_write {
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
-            print FILE $info{$i};
+                print FILE "$i: info{$i}\n";
 	    }
     }
     close FILE;
