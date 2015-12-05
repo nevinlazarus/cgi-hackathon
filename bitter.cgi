@@ -114,7 +114,7 @@ eof
     
     %cookies = fetch CGI::Cookie;
     
-    if (param("post_write") eq "True"){
+    if (defined param("post_write") && param("post_write") eq "True"){
     	post_write();
     }
 
