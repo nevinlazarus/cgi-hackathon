@@ -269,7 +269,7 @@ sub org_sign_up{
         </tr>
         <tr>
             <td> <label class="signup">Company ID:</label> </td>
-            <td> <input type="text" name="sign_uniqId"> </td>
+            <td> <input type="text" name="uniqId"> </td>
         </tr>
         <tr>
             <td> <label class="signup">Password:</label> </td>
@@ -304,7 +304,7 @@ sub sign_up_screen {
         </tr>
         <tr>
             <td> <label class="signup">Indonesian ID:</label> </td>
-            <td> <input type="text" name="sign_uniqId" maxlength="16"> </td>
+            <td> <input type="text" name="uniqId" maxlength="16"> </td>
         </tr>
         <tr>
             <td> <label class="signup">Password:</label> </td>
