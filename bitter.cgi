@@ -140,23 +140,33 @@ sub send_account_confirm {
 sub sign_up_screen {
 	print <<eof;
 	
-	<h2> Sign Up </h2>
-	
+	<h2> Sign Up </h2>	
 <form method="POST" action="">
-	<label class="signup">Username:</label>
-	<input type="text" name="sign_user">
-	<br>
-	<label class="signup">Password:</label>
-	<input type="password" name="sign_pass">
-	<br>
-	<label class="signup">Confirm Password:</label>
-	<input type="password" name="confirm_pass">
-	<br>
-	<label class="signup">Email:</label>
-	<input type="text" name="sign_email">
-	<br>
-	<br>
+    <table> 
+    <tr>    
+	    <label class="signup">Username:</label>
+	    <input type="text" name="sign_user">
+    </tr>
+    <tr>
+	    <label class="signup">Indonesian ID:</label>
+	    <input type="text" name="nik">
+    </tr>
+    <tr>
+	    <label class="signup">Password:</label>
+	    <input type="password" name="sign_pass">
+	</tr>
+	<tr>
+	    <label class="signup">Confirm Password:</label>
+	    <input type="password" name="confirm_pass">
+	</tr>
+	<tr>
+	    <label class="signup">Email:</label>
+	    <input type="text" name="sign_email">
+	</tr>
+	<tr>
 	<input type="submit" value="Submit" class="btn">
+	</tr>
+	</table>
 </form>	
 	
 eof
