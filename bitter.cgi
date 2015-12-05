@@ -90,10 +90,10 @@ sub main() {
     }
     
     if (param('sign_user') && (param('sign_pass') eq param('confirm_pass')) && param('sign_email') =~ /\@/) {
-		send_account_confirm();
+	send_account_confirm();
     } elsif (param('signup')) {
-		sign_up_screen();
-                org_sign_up();
+	sign_up_screen();
+        org_sign_up();
     }
     
     print page_trailer();
@@ -197,7 +197,7 @@ sub org_sign_up{
                                                                 -pattern=>"[0-9]+",
                                                                 -maxlength=>20), "<br>\n";
     print "Email:\n", textfield(-name=>'email',
-                                        -pattern=>"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[a-zA-Z0-9]$",
+                                        -pattern=>"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[a-zA-Z0-9]",
                                         -override=>1), "<br>\n";
     print hidden('group',"true");
     print submit('newaccount','Create'), "\n";
