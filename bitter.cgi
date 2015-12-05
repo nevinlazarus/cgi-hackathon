@@ -327,7 +327,7 @@ sub send_message {
 }
 
 #---------------------------------------------------#
-# GENERAL FUNCTIONS                                 #
+# GENERAL FUNCTIONS                                                  #
 #---------------------------------------------------#
 sub list_users(){
     my @users = <./$users_dir/*>;
