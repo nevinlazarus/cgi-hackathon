@@ -118,20 +118,23 @@ eof
     	post_write();
     }
 
-    if (param("Search")){
-    	search();
-    }
+    
 
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
-	sign_up_screen();
+	    sign_up_screen();
         org_sign_up();
     }
 
     if ($logged_in) {
         print post();
         print_feed();
+        if (param("Search")){
+    	    search_feed(param("Search"));
+        } else {
+            print_feed();
+        }
         buffer_details();
     }
     
@@ -918,7 +921,7 @@ sub print_feed() {
         for $line (<F>) {
             print "<p>";        
             print "$line"; #print out the contents of the complaint
-            print "</p><br>";        
+            print "</p>";        
         }
     
     }    
