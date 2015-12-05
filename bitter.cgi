@@ -980,7 +980,7 @@ eof
 }
 
 sub post_write {
-    %info = {};
+    %info = ();
     $info{"KTP"} = $information{"idnum"};
     $info{"name"} = $information{"username"};
     $info{"id"} = param("id");
@@ -994,7 +994,9 @@ sub post_write {
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
-                print FILE "$i: ".$info{$i}."\n";
+
+            print FILE "$i: ".$info{$i}."\n";
+
 	    }
     }
     close FILE;
