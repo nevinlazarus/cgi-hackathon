@@ -179,7 +179,7 @@ sub create_user_account {
 	my $new_email = param('email');
 	my $uniqId = param('uniqId');
         my $org = param('group');
-        mkdir("./$users_dir/temp/$new_user");
+        mkdir("./$users_dir/temp/$new_user") or die "cannot make ./$users_dir/temp/$new_user";
 	open DETAILS, ">","./$users_dir/temp/$new_user/details.txt" or die "cannot open ./$users_dir/temp/$new_user/details.txt";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
