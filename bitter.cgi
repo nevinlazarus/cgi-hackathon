@@ -84,30 +84,13 @@ sub main() {
     }
     
     %cookies = fetch CGI::Cookie;
-    if (defined param('message') && $logged_in) { #sending message
-        send_message(param('message'));
-    }
+    
 	
 	if (param('confirm_user')) {
 		create_user_account();
 	}
     
-    if (defined param('listen')) {
-        addremove_listener();
-    }
-    
-    if (defined param('upload')) {
-        upload_image();
-    }
-	
-	print_search_bar();
-    print "<br>";
-    
-    if ($logged_in) {
-        message_box(); 
-    }
-	
-	if (param('sign_user') && (param('sign_pass') eq param('confirm_pass')) && param('sign_email') =~ /\@/) {
+    if (param('sign_user') && (param('sign_pass') eq param('confirm_pass')) && param('sign_email') =~ /\@/) {
 		send_account_confirm();
     } elsif (param('signup')) {
 		sign_up_screen();
