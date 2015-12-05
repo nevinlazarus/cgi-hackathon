@@ -905,7 +905,7 @@ sub print_feed() {
         print $complaint_file;
         open(F, $complaint_file) or break; 
         print "<label>";
-        for $line (<F>) {
+        for (<F>) {
             print "$line\n"; #print out the contents of the complaint
         }
         print "</label>";        
@@ -967,7 +967,7 @@ sub post_write {
     $file = "/bleats/".$info{"id"}.".txt";
     print $info["description"];
 
-    open (FILE, '>'.$file)or die "\nunable to create\n";
+    open (FILE, '>',".$file") or die "\nunable to create .$file\n";
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
