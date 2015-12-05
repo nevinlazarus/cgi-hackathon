@@ -322,7 +322,7 @@ sub sign_up_screen {
         </tr>
         <tr>
             <td> <label class="signup">Email:</label> </td>
-            <td> <input type="text" name="sign_email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
+            <td> <input type="text" name="email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
         </tr>
         <tr>
         <input type="hidden" name="group" value="false">
@@ -675,19 +675,7 @@ sub profile(){
     print "<div class=\"bitter_picture\">";
     print "<img src=\"$user_to_show/profile.jpg\" alt=\"User has not uploaded a picture\" >";
     print "</div>";
-    if($toshow ne $username){
-        print '<form method="POST" action="">';
-        print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-        print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-        print  "<input type=\"hidden\" name=\"listunlistuser\" value=\"$toshow\">";
-        if(grep {$_ eq $toshow} @listens){
-            print "<input type=\"submit\" name=\"unlisten\" value=\"Unlisten\" class=\"bitter_button\">\n";
-        } else {
-            print "<input type=\"submit\" name=\"listen\" value=\"Listen\" class=\"bitter_button\">\n";
-        }
-  
-        print "</form><p>\n";
-    }
+
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
     chomp $line;
