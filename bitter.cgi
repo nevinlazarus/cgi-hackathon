@@ -862,14 +862,14 @@ Content-Type: text/html
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi">Korrum</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Notifications</a></li>
+        <li><inputPost<span class="sr-only">(current)</span></a></li>
+        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
