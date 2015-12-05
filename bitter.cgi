@@ -876,10 +876,10 @@ sub post_write {
     }
 
 
-    foreach $i (keys sort %info){
+    foreach $i (sort keys %info){
         if ($i eq "id"){
             continue;
-	}
+	    }
         print FILE $info[$i];
     }
 
