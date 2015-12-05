@@ -128,7 +128,7 @@ eof
 	    sign_up_screen();
         org_sign_up();
     }
-    print $logged_in;
+
     if ($logged_in) {
         print_feed();
     }
@@ -902,6 +902,7 @@ sub send_notification_email() {
 sub print_feed() {
     #for each complaint
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
+        print $complaint_file;
         open(F, $complaint_file) or break; 
         print "<label>";
         for (<F>) {
