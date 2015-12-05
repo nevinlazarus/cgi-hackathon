@@ -230,7 +230,7 @@ sub create_user_account {
 }
 
 sub send_account_confirm {
-	my $email = param('sign_email');
+	my $email = param('email');
 	my $newusr = param('sign_user');
 
         #check if username exists
