@@ -348,7 +348,7 @@ sub sign_up_screen {
         </tr>
         <tr>
             <td> <label class="signup">Email:</label> </td>
-            <td> <input type="text" name="sign_email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
+            <td> <input type="text" name="email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
         </tr>
         <tr>
         <input type="hidden" name="group" value="false">
@@ -694,26 +694,14 @@ eof
 }
 
 sub profile(){
-    my $toshow = param('userprofile');
+    my $toshow = $information{'username'};
     my $user_to_show  = "./$users_dir/$toshow";
      
     my $details_filename = "$user_to_show/details.txt";
     print "<div class=\"bitter_picture\">";
     print "<img src=\"$user_to_show/profile.jpg\" alt=\"User has not uploaded a picture\" >";
     print "</div>";
-    if($toshow ne $username){
-        print '<form method="POST" action="">';
-        print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-        print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-        print  "<input type=\"hidden\" name=\"listunlistuser\" value=\"$toshow\">";
-        if(grep {$_ eq $toshow} @listens){
-            print "<input type=\"submit\" name=\"unlisten\" value=\"Unlisten\" class=\"bitter_button\">\n";
-        } else {
-            print "<input type=\"submit\" name=\"listen\" value=\"Listen\" class=\"bitter_button\">\n";
-        }
-  
-        print "</form><p>\n";
-    }
+
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
     chomp $line;
@@ -741,7 +729,7 @@ sub show_comp() {
     ##### =>  Complaint list to show is:
     ##### ./$users_dir/$related/list.txt
     #print toggle();
-    my $toShow = param('orgprofile');
+    my $toShow = $information{'username'};
     my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
     open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
@@ -947,7 +935,7 @@ sub page_trailer {
 
 sub send_notification_email() {
         my @list=();
-        my $related = $info{"location"};
+        my $related = $info{"tag"};
 
         #retrieve email or organisation
         open F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
@@ -1097,7 +1085,7 @@ sub post_write {
     }
     close FILE;
 
-    if($info{"location"}){
+    if($info{"tag"}){
         send_notification_email();
     }
 
