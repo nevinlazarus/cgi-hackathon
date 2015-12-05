@@ -54,9 +54,10 @@ sub main() {
     $organisations =~ s/,\$//;
     
     #get some jquery magics
-    print  "<script src='//code.jquery.com/jquery-1.10.2.js'></script>
-  <script src='//code.jquery.com/ui/1.11.4/jquery-ui.js'></script>";
-    print <<eof;
+    print <<eof;    
+   <script src='//code.jquery.com/jquery-1.10.2.js'></script>
+    <script src='//code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
+    <script>
     \$(function() {
     var availableTags = [
         $organisations
@@ -67,6 +68,7 @@ sub main() {
 
             ]
     });
+    </script>
 eof
     #logging out
     if (param('logout')) {
