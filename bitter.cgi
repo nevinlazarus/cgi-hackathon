@@ -175,7 +175,7 @@ sub print_login {
         print "Confirmation successful! Please login.\n";
     }
     print <<END_OF_HTML;
-<div class='nav'>
+<div>
     <form method="POST" action="">
         <label>Username:</label>
         <input type="text" name="username">
