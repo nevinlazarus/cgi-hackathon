@@ -60,14 +60,14 @@ sub main() {
                             last;
                         }
                     }
-					(my $password = param('password'));
+                    (my $password = param('password'));
                     $password_line =~ s/^password: //; #remove start of line
-					$password =~ s/ //g;
-					chomp($password_line);
-					$password_line =~ s/ //g;
+                    $password =~ s/ //g;
+                    chomp($password_line);
+                    $password_line =~ s/ //g;
                     if ($password eq $password_line) {
                         print "<script>document.cookie='auth=".param('username')."; path=/'</script>";
-						param('n', $name_to_int{param('username')}); #gets the number associated with the username
+			param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                     } else {
                         print_login();
@@ -103,13 +103,13 @@ sub create_user_account {
 	my $new_user = param('confirm_user');
 	my $new_pass = param('password');
 	my $new_email = param('email');
-	my $nik = param('nik');
+	my $uniqId = param('uniqId');
 	mkdir "$users_dir/$new_user";
 	open DETAILS, ">$users_dir/$new_user/details.txt";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
-	print DETAILS "idnum: $nik\n";
+	print DETAILS "idnum: $uniqId\n";
         print DETAILS "org: $org\n";
 	close DETAILS;
 	
@@ -169,7 +169,7 @@ sub sign_up_screen {
         </tr>
         <tr>
 	        <td> <label class="signup">Indonesian ID:</label> </td>
-	        <td> <input type="text" name="sign_nik"> </td>
+	        <td> <input type="text" name="sign_uniqId"> </td>
         </tr>
         <tr>
 	        <td> <label class="signup">Password:</label> </td>
