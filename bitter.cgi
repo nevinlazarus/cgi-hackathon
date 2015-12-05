@@ -897,18 +897,31 @@ sub page_trailer {
 }
 
 sub send_notification_email() {
-    my $email = "nevin.lazarus\@gmail.com";
-	my $from = "z5019263\@cse.unsw.edu.au";
-	my $subject = "Complaint";
-	my $message = "You've received a complaint!";
-	open(MAIL, "|/usr/sbin/sendmail -t");
-	# Email Header
-	print MAIL "To: $email\n";
-	print MAIL "From: $from\n";
-	print MAIL "Subject: $subject\n\n";
-	# Email Body
-	print MAIL $message;
-	close(MAIL);    
+    
+        my $related = $info{"location"};
+        open my F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
+        while(my $line = <F>){
+            chomp $line;
+            if($line =~ /^email: (.*)/){
+                my $groupemail = $1;
+            }
+        }
+
+        #random link currently. change later. should redirect to a page that shows one complaint
+        my $link = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi?viewId=$info{id}";
+        #my $email = "nevin.lazarus\@gmail.com";
+        my $from = "z5019263\@cse.unsw.edu.au";
+        my $subject = "Complaint";
+        my $message = "You've received a complaint! Click here to see it: $link\n ";
+        open(MAIL, "|/usr/sbin/sendmail -t");
+        # Email Header
+        print MAIL "To: $groupemail\n";
+        print MAIL "From: $from\n";
+        print MAIL "Subject: $subject\n\n";
+        # Email Body
+        print MAIL $message;
+        close(MAIL);  
+          
 }
 
 #prints out a feed of complaints
@@ -979,8 +992,7 @@ sub post_write {
     $info{"id"} = param("id");
     $info{"location"} = param("location");
     $info{"description"} = param("description");
-
-    $file = "/bleats/".$info{"id"}.".txt";
+    my $file = "/bleats/".$info{"id"}.".txt";
 
     open (FILE, '>',".$file") or die "\nunable to create .$file\n";
     
@@ -992,8 +1004,11 @@ sub post_write {
 	}
     }
     close FILE;
-    send_notification_email();
-    
+
+    if($info{"location"}){
+        send_notification_email();
+    }
+
 }
 
 
