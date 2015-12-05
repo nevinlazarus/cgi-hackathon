@@ -99,6 +99,41 @@ sub main() {
 }
 
 
+#---------------------------------------------------#
+# ACCOUNT RELATED FUNCTIONS                                       #
+#---------------------------------------------------#
+
+sub print_login {
+    #<input type="submit" value="Forgot Password" class="btn"> TODO add later
+    print <<END_OF_HTML;
+<div class='nav'>
+    <form method="POST" action="">
+        <label>Username:</label>
+        <input type="text" name="username">
+        <label>Password:</label>
+        <input type="password" name="password">
+        <input type="submit" value="Login" class="btn">
+    </form>
+    <form method="POST" action="">
+        <input type="hidden" name="signup" value=1>
+        <input type="submit" value="Sign-up" class="btn">
+    </form>
+</div>
+END_OF_HTML
+    $logged_in = 0;
+}
+
+sub print_logout {
+    print <<END_OF_HTML;
+<div class='nav' >
+    <form method="POST" action="">
+        <input type="hidden" name="logout" value="1">
+        <input type="submit" value="Logout" class="btn">
+    </form>
+</div>
+END_OF_HTML
+    $logged_in = 1;
+}
 #complete!
 sub create_user_account {
 	my $new_user = param('confirm_user');
@@ -195,7 +230,9 @@ sub sign_up_screen {
 	
 eof
 }
-
+#---------------------------------------------------#
+# POST RELATED FUNCTIONS                                           #
+#---------------------------------------------------#
 sub upload_image {
     $CGI::POST_MAX = 1024 * 5000; #set max size to 5MB
     my $username = $cookies{'auth'}->value;
@@ -211,50 +248,6 @@ sub upload_image {
     }
 
     close UPLOADFILE;
-}
-
-
-sub search_bleats {
-    my $search_term = param('search_bleat');
-    my @bleat_id = reverse (sort(glob("$bleats_dir/*")));
-    
-    print "<h2> Bleat Results for ".param('search_bleat')." </h2>";
-    my $bleat_index = 0;
-    for my $bleat (@bleat_id) {
-        open F, $bleat or die;
-        my $bleat_text = "";
-        for (sort <F>) {
-            if (/^bleat/) {
-                $bleat_text = $_;
-            }
-        }
-        $bleat_text =~ s/^bleat: //;        
-        if ($bleat_text =~ /$search_term/) {
-            $bleat_index++;
-            if ($bleat_index <= ($PAGE_INDEX * $NUM_RESULTS)) {
-                next;
-            } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
-                next;
-            }
-            
-            
-            print "<div class='bleat' style=\"background-color:#F0F8FF\">";
-            seek F, 0, 0;
-			
-            for (sort <F>) {
-				print $_."<br>";
-				
-            }
-            (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
-            print "<a href=?bleat_reply=$bleat_reply_id>Reply</a>" if ($logged_in);
-            print "<br>";
-            print "</div>";
-        }
-        close F;
-    }
-    print "<br>";
-    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
-    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
 
 sub addremove_listener {
@@ -343,6 +336,86 @@ sub list_users(){
     
     }
     return;
+}
+
+
+
+sub buffer_details(){
+    my $user_to_show  = "./$users_dir/$username";
+    my $details_filename = "$user_to_show/details.txt";
+    open my $p, "$details_filename" or die "can not open $details_filename: $!";
+    while (my $line = <$p>){
+        chomp $line;
+        if ($line =~ /^listens: (.*)/){
+            @listens = split(' ',$1);
+            #$information{"listens"}= \@listens;
+        }elsif($line =~ /([^:]+): (.*)/){
+            $information{"$1"}= "$2";
+        }
+    }
+    close $p;
+}
+
+
+
+sub message_box {
+    my $bleat_reply = param('bleat_reply') || ""; 
+    print <<END_OF_HTML;
+<div>
+    <form method="POST" action="">
+        <input type="text" name="message" maxlength="142">
+        <input type="hidden" name="bleat_reply" value="$bleat_reply">
+        <input type="submit" value="Send Message" class="btn">
+    </form>
+</div>
+END_OF_HTML
+}
+
+#---------------------------------------------------#
+# SEARCH FUNCTIONS                                                  #
+#---------------------------------------------------#
+
+sub search_bleats {
+    my $search_term = param('search_bleat');
+    my @bleat_id = reverse (sort(glob("$bleats_dir/*")));
+    
+    print "<h2> Bleat Results for ".param('search_bleat')." </h2>";
+    my $bleat_index = 0;
+    for my $bleat (@bleat_id) {
+        open F, $bleat or die;
+        my $bleat_text = "";
+        for (sort <F>) {
+            if (/^bleat/) {
+                $bleat_text = $_;
+            }
+        }
+        $bleat_text =~ s/^bleat: //;        
+        if ($bleat_text =~ /$search_term/) {
+            $bleat_index++;
+            if ($bleat_index <= ($PAGE_INDEX * $NUM_RESULTS)) {
+                next;
+            } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
+                next;
+            }
+            
+            
+            print "<div class='bleat' style=\"background-color:#F0F8FF\">";
+            seek F, 0, 0;
+            
+            for (sort <F>) {
+                print $_."<br>";
+                
+            }
+            (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
+            print "<a href=?bleat_reply=$bleat_reply_id>Reply</a>" if ($logged_in);
+            print "<br>";
+            print "</div>";
+        }
+        close F;
+    }
+    print "<br>";
+    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
+    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
 
 sub search(){
@@ -470,68 +543,6 @@ sub search(){
     }
     return;
 }
-
-sub buffer_details(){
-    my $user_to_show  = "./$users_dir/$username";
-    my $details_filename = "$user_to_show/details.txt";
-    open my $p, "$details_filename" or die "can not open $details_filename: $!";
-    while (my $line = <$p>){
-        chomp $line;
-        if ($line =~ /^listens: (.*)/){
-            @listens = split(' ',$1);
-            #$information{"listens"}= \@listens;
-        }elsif($line =~ /([^:]+): (.*)/){
-            $information{"$1"}= "$2";
-        }
-    }
-    close $p;
-}
-
-sub print_login {
-    #<input type="submit" value="Forgot Password" class="btn"> TODO add later
-    print <<END_OF_HTML;
-<div class='nav'>
-    <form method="POST" action="">
-        <label>Username:</label>
-        <input type="text" name="username">
-        <label>Password:</label>
-        <input type="password" name="password">
-        <input type="submit" value="Login" class="btn">
-    </form>
-    <form method="POST" action="">
-        <input type="hidden" name="signup" value=1>
-        <input type="submit" value="Sign-up" class="btn">
-    </form>
-</div>
-END_OF_HTML
-    $logged_in = 0;
-}
-
-sub print_logout {
-    print <<END_OF_HTML;
-<div class='nav' >
-    <form method="POST" action="">
-        <input type="hidden" name="logout" value="1">
-        <input type="submit" value="Logout" class="btn">
-    </form>
-</div>
-END_OF_HTML
-    $logged_in = 1;
-}
-
-sub message_box {
-    my $bleat_reply = param('bleat_reply') || ""; 
-    print <<END_OF_HTML;
-<div>
-    <form method="POST" action="">
-        <input type="text" name="message" maxlength="142">
-        <input type="hidden" name="bleat_reply" value="$bleat_reply">
-        <input type="submit" value="Send Message" class="btn">
-    </form>
-</div>
-END_OF_HTML
-}
-
 sub search_results {
 	my $name = param('search_term'); #the search term
 	my $n = 0;
