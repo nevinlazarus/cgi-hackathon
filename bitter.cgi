@@ -148,7 +148,7 @@ sub approve($) {
     }
 }
 
-sub approve($) {
+sub disapprove($) {
     $id = $_[0];
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
@@ -183,7 +183,7 @@ sub buffer_details(){
     %cookies = fetch CGI::Cookie;
 
     my $username = $cookies{'auth'}->value;
-    if ($username == 0) {
+    if ($username eq '0') {
         return;
     }
     print "Logged in as $username\n";
