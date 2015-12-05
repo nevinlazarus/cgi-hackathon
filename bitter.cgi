@@ -21,8 +21,8 @@ sub main() {
     # define some global variables
     $debug = 1;
     $dataset_size = "medium"; 
-    $users_dir = "dataset-$dataset_size/users";
-    $bleats_dir = "dataset-$dataset_size/bleats";
+    $users_dir = "users";
+    $bleats_dir = "bleats";
 
 	%name_to_int;
 	my $i;
@@ -125,7 +125,7 @@ sub send_account_confirm {
 	my $password = param('sign_pass');
 	my $from = "z5019263\@cse.unsw.edu.au";
 	my $subject = "Confirm";
-	my $message = "cse.unsw.edu.au/~z5019263/ass2/bitter.cgi?confirm_user=$username&password=$password&email=$email";
+	my $message = "cse.unsw.edu.au/~z5019263/ass2/bitter.cgi?confirm_user=$username
 	print "Sending mail to $email", ;
 	open(MAIL, "|/usr/sbin/sendmail -t");
 	# Email Header
@@ -144,14 +144,14 @@ sub sign_up_screen {
 	
 	<h2> Sign Up </h2>	
 <form method="POST" action="">
-    <table> 
+    <table cellspacing=10> 
         <tr>    
 	        <td> <label class="signup">Username:</label> </td>
 	        <td> <input type="text" name="sign_user"> </td>
         </tr>
         <tr>
 	        <td> <label class="signup">Indonesian ID:</label> </td>
-	        <td> <input type="text" name="nik"> </td>
+	        <td> <input type="text" name="sign_nik"> </td>
         </tr>
         <tr>
 	        <td> <label class="signup">Password:</label> </td>
