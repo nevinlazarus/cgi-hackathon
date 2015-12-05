@@ -972,7 +972,7 @@ sub send_notification_email() {
         my $related = $info{"location"};
 
         #retrieve email or organisation
-        open my F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
+        open F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
         while(my $line = <F>){
             chomp $line;
             if($line =~ /^email: (.*)/){
@@ -983,14 +983,14 @@ sub send_notification_email() {
         push @list, $info{'id'}."\n"
 
         #read/copy list of complaint IDs
-        open my FILE, "./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt: $!";
+        open FILE, "./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt: $!";
         while(my $line = <F>){
             push @list, $line;
         }
         close FILE;
 
         #add new complaint id and overwrite list.txt
-        open my G, '>',"./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt";
+        open G, '>',"./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt";
         foreach $element (@list){
             print G "$element";
         }
