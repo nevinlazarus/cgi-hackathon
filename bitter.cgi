@@ -668,7 +668,7 @@ eof
 }
 
 sub profile(){
-    my $toshow = param('userprofile');
+    my $toshow = $information{'username'};
     my $user_to_show  = "./$users_dir/$toshow";
      
     my $details_filename = "$user_to_show/details.txt";
@@ -715,7 +715,7 @@ sub show_comp() {
     ##### =>  Complaint list to show is:
     ##### ./$users_dir/$related/list.txt
     #print toggle();
-    my $toShow = param('orgprofile');
+    my $toShow = $information{'username'};
     my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
     open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
