@@ -940,12 +940,14 @@ sub search_feed($) {
             } 
         }
         if ($print_complaint) { #if the file contains the search term
-            print "<label>";
+
             open(F, $complaint_file) or break;             
             for $line (<F>) {
-                print "$line\n";
+                print "<p>";        
+                print "$line"; #print out the contents of the complaint
+                print "</p>";    
             }        
-            print "</label>";   
+
         } 
     }
     
