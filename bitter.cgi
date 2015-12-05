@@ -125,7 +125,7 @@ sub send_account_confirm {
 	my $password = param('sign_pass');
 	my $from = "z5019263\@cse.unsw.edu.au";
 	my $subject = "Confirm";
-	my $message = "cse.unsw.edu.au/~z5019263/ass2/bitter.cgi?confirm_user=$username
+	my $message = "cse.unsw.edu.au/~z5019263/ass2/bitter.cgi?confirm_user=$username";
 	print "Sending mail to $email", ;
 	open(MAIL, "|/usr/sbin/sendmail -t");
 	# Email Header
