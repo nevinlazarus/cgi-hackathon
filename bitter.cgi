@@ -138,7 +138,27 @@ sub send_account_confirm {
 	close(MAIL);
 	
 }
+sub org_sign_up{
+    print "<br><br><h3>Create a new account</h3><p>";
+    print "<div class=\"subtitle\">Only alphanumeric  characters, underscores and dashes are allowed<p> for username and password, to a maximum of 30 characters.</div><p>";
+    print start_form, "\n";
+    
+    print "Username:\n", textfield( -name=>'newusr',
+                                    -override=>1, 
+                                    -pattern=>"[A-Za-z0-9_\-]+",
+                                    -maxlength=>30), "\n<br>";
+    print "Password:\n", password_field(-name=>'newpwd',
+                                        -override=>1,
+                                        -pattern=>"[A-Za-z0-9_\-]+",
+                                        -maxlength=>30), "<br>\n";
+    print "Email:\n", textfield(-name=>'email',-override=>1), "<br>\n";
 
+    print submit('newaccount','Create'), "\n";
+    print end_form, "\n";
+
+
+    
+}
 sub sign_up_screen {
 	print <<eof;
 	
