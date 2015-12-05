@@ -973,10 +973,10 @@ sub print_feed() {
                 next;
             }
             print "<p>";        
-            print "$line"; #print out the contents of the complaint
+            print "$line\n"; #print out the contents of the complaint
             print "</p>";        
         }
-    
+        close F;
     }    
 }
 
