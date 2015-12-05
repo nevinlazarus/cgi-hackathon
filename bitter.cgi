@@ -95,7 +95,7 @@ eof
                     chomp($password_line);
                     $password_line =~ s/ //g;
                     if ($password eq $password_line) {
-                        print "<script>document.cookie='auth=".param('username')."'; path='/'</script>";
+                        print "<script>document.cookie='auth=".param('username')."';</script>";
 			            param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                     } else {
