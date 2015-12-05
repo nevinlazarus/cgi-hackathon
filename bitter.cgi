@@ -80,15 +80,11 @@ sub main() {
                 print_login();
             }
         }
-    }
-    print "<h1> I'm Testing </h1>";
-    print_feed();
-    search_feed();
-    
+    }    
     
     %cookies = fetch CGI::Cookie;
     
-    post;
+    print post();
 	
     if (param('confirm_user')) {
     	create_user_account();
@@ -871,7 +867,7 @@ sub print_feed() {
         open(F, $complaint_file) or break; 
         print "<label>";
         for (<F>) {
-            print; #print out the contents of the complaint
+            print "$line\n"; #print out the contents of the complaint
         }
         print "</label>";        
     }    
@@ -894,7 +890,7 @@ sub search_feed($) {
             print "<label>";
             open(F, $complaint_file) or break;             
             for $line (<F>) {
-                print $line;
+                print "$line\n";
             }        
             print "</label>";   
         } 
