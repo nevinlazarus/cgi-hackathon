@@ -95,8 +95,8 @@ eof
                     chomp($password_line);
                     $password_line =~ s/ //g;
                     if ($password eq $password_line) {
-                        print "<script>document.cookie='auth=".param('username')."; path=/'</script>";
-			param('n', $name_to_int{param('username')}); #gets the number associated with the username
+                        print "<script>document.cookie='auth=".param('username')."'; path='/'</script>";
+			            param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                     } else {
                         print_login();
@@ -121,7 +121,7 @@ eof
     }
 
     if (param("Search")){
-	search();
+    	search();
     }
 
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
@@ -918,8 +918,8 @@ sub print_feed() {
 
         for $line (<F>) {
             print "<label>";        
-            print "$line\n"; #print out the contents of the complaint
-            print "</label>";        
+            print "$line"; #print out the contents of the complaint
+            print "</label><br>";        
         }
     
     }    
