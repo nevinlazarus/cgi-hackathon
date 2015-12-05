@@ -157,7 +157,10 @@ sub buffer_details(){
         }
     }
     close $p;
+    foreach $key (keys %information){
+        print "$key -> $information{$key}\n";
 
+    }
 }
 
 sub print_login {
