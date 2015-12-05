@@ -465,7 +465,7 @@ sub search(){
     print submit('search','Search'), "\n";
     print end_form, "\n";
     print "</div>\n";
-    $keyword = quo  eta "$query";
+    $keyword = quotemeta "$query";
     $directory = quotemeta"$users_dir";
     $bleatdir = quotemeta"$bleats_dir";
     if (defined $keyword && $keyword ne ''){
@@ -897,7 +897,7 @@ sub page_trailer {
 }
 
 sub send_notification_email() {
-    
+
         my $related = $info{"location"};
         open my F, "./$users_dir/$related/details.txt" or die "cannot open ./$users_dir/$related/details.txt: $!";
         while(my $line = <F>){
@@ -972,7 +972,6 @@ sub post {
     #my $name = $information["name"];
     my $id = localtime;
     $id =~ s/[^\d]//g;
-    print $id;
     return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
