@@ -94,13 +94,7 @@ sub main() {
 		send_account_confirm();
     } elsif (param('signup')) {
 		sign_up_screen();
-    } elsif (param('search_term')) {
-		search_results();		
-	} elsif (param('search_bleat')) {
-        search_bleats();
-    } else {
-		user_page();
-	}
+    }
     
     print page_trailer();
 }
