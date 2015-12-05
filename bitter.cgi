@@ -929,15 +929,12 @@ sub post_write {
     $info["location"] = param("location");
     $info["description"] = param("description");
     
-    unless(open FILE, '>'."$info["id"].txt"){
-	die "\nunable to create\n";
-    }
-
-
-    foreach $i (keys sort %info){
+    open FILE, '>'."$info["id"].txt") or die "\nunable to create\n";
+    
+    foreach $i (sort(keys %info)){
         if ($i eq "id"){
             continue;
-	}
+	    }
         print FILE $info[$i];
     }
 
