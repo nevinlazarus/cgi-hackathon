@@ -85,7 +85,11 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
-    print post();
+    if (param("post_write") eq "True"){
+	post_write();
+    } else {
+	print post();
+    }
 
     if (param('confirm_user')) {
     	create_user_account();
@@ -909,11 +913,10 @@ sub post {
     return <<eof
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
-    Descri[tion: <input type="text" name="description">
+    Description: <input type="text" name="description">
     Locaiton/Organisation: <input type="text" name="location">
-    #<input type="hidden" name="KTP" value=$KTP>
-    #<input type="hidden" name="name" value=$name>
     <input type="hidden" name="id" value=$id>
+    <input type="hidden" name="post_write" value="True">
     <input type="submit" name="submit">
 </form>
 eof
@@ -933,11 +936,8 @@ sub post_write {
         if ($i ne "id"){
             print FILE $info[$i];
 	    }
-        
     }
-
     close FILE;
-
 }
 
 main();
