@@ -136,7 +136,7 @@ sub approve($) {
             for $line (@list) {
 
                 if ($line =~ /^rep: (.*)/) {
-                    $rep = $1
+                    $rep = $1;
                     $rep++;
                     $line = "rep: ".$rep;
                 }
@@ -148,7 +148,7 @@ sub approve($) {
     }
 }
 
-sub disapprove($) {
+sub approve($) {
     $id = $_[0];
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
@@ -156,19 +156,21 @@ sub disapprove($) {
             open(F, "$bleats_dir/$complaint_file") or die;
             @list;
             for $line (<F>) {
-                push($line, @list);
+                push @list, $line;
             }
+            close F;
             open(F, ">", "$bleats_dir/$complaint_file") or die;
             for $line (@list) {
 
                 if ($line =~ /^rep: (.*)/) {
-                    $rep = $1
+                    $rep = $1;
                     $rep--;
                     $line = "rep: ".$rep;
                 }
                                 
                 print F, $line;
             }
+            close F;
         }
     }
 }
