@@ -136,6 +136,7 @@ eof
     	    search_feed(param("Search"));
         } elsif ($information{'org'} eq "true"){
             print profile();
+            show_comp();
         } else {
             print_feed();
         }
@@ -281,7 +282,7 @@ sub org_sign_up{
         </tr>
         <tr>
             <td> <label class="signup">Email:</label> </td>
-            <td> <input type="text" name="sign_email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
+            <td> <input type="text" name="email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
         </tr>
         <tr>
         <input type="hidden" name="group" value="true">
@@ -661,70 +662,56 @@ sub print_search_bar {
 eof
 }
 
+sub profile(){
+    my $toshow = param('userprofile');
+    my $user_to_show  = "./$users_dir/$toshow";
+     
+    my $details_filename = "$user_to_show/details.txt";
+    print "<div class=\"bitter_picture\">";
+    print "<img src=\"$user_to_show/profile.jpg\" alt=\"User has not uploaded a picture\" >";
+    print "</div>";
+    if($toshow ne $username){
+        print '<form method="POST" action="">';
+        print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
+        print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
+        print  "<input type=\"hidden\" name=\"listunlistuser\" value=\"$toshow\">";
+        if(grep {$_ eq $toshow} @listens){
+            print "<input type=\"submit\" name=\"unlisten\" value=\"Unlisten\" class=\"bitter_button\">\n";
+        } else {
+            print "<input type=\"submit\" name=\"listen\" value=\"Listen\" class=\"bitter_button\">\n";
+        }
+  
+        print "</form><p>\n";
+    }
+    open my $p, "$details_filename" or die "can not open $details_filename: $!";
+    while (my $line = <$p>){
+    chomp $line;
+    push @userdetail, "$line\n";
+    }
+    close $p;
+    @userdetail = grep(!/^password: /,@userdetail);
+    @userdetail = grep(!/^email: /,@userdetail);
+    $details = join '', @userdetail;
+
+    return <<eof
+<div class="bitter_user_details">
+$details
+</div>
+<p>
+eof
+
+}
+
 #
 # Show unformatted details for user "n".
 # Increment parameter n and store it as a hidden variable
 #
-sub profile() {
+sub show_comp() {
     ##### =>  Complaint list to show is:
     ##### ./$users_dir/$related/list.txt
-
-    my $n = param('n') || 0;
-    @users = sort(glob("$users_dir/*"));
-	
-    my $user_to_show  = $users[$n % @users];
-    my $details_filename = "$user_to_show/details.txt";
-    my $image_filename = "$user_to_show/profile.jpg";
-    open F, "$details_filename" or die "can not open $details_filename: $!";
-    my $details;
-    for (sort <F>) { 
-        if (!defined $_) {
-            next;
-        }
-        s/^/<li>/;
-        if (/listen/) { #changes to a list format
-            s/listens:/listens:<ul>/; 
-            s/ ([A-Z][A-Za-z0-9]+)/<li> $1 <\/li>/g;
-            s/$/<\/ul>/;            
-        } else {            
-            s/.*(username|password|email): [^ <]+//g; #remove the password and email fields;        
-        }
-        $details .= $_;       
-    }
-
-
-    close F;
-    my $next_user = $n + 1;
-    my $prev_user = $n - 1;
-    (my $username = $user_to_show) =~ s/.*\///;
-    print <<eof;	
-
-<table>
-<tr>
-<td valign=top>
-    <div class="bitter_user_details" align=top style="display:inline-block">
-        
-        <img width="300px" height="300px" src=$image_filename onerror="this.src='nopicture.jpg'" align="middle" />
-        <form style="white-space: pre-line;word-wrap:break-word;display:inline-block">
-            <h2> $username </h2>
-            $details
-        </form>
-        
-    </div>
-</td>
-<td>
-    <div>
-eof
-    print_bleats($user_to_show);
-    print "</div></td><tr></table>";
-}
-
-
-#org complaint page
-sub org_complaints {
     #print toggle();
     my $toShow = param('orgprofile');
-    my $bleats_filename = "$users_dir/$toShow/bleats.txt";
+    my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
     open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
         while (my $line = <$p>){
@@ -782,8 +769,8 @@ sub org_complaints {
        print "$post";
     }
    return;
-
 }
+
 
 
 
