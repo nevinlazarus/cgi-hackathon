@@ -989,6 +989,7 @@ sub print_feed() {
 #Search for complaints
 #First argument is the search term
 sub search_feed($) {
+    $id = 0;
     my $search_term = CGI::escapeHTML($_[0]);     
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         #check if the file contains the search term
@@ -1007,15 +1008,16 @@ sub search_feed($) {
             open(F, $complaint_file) or break;             
             for $line (<F>) {
                 if ($line =~ /^(KTP|name)/) {
+                    if ($line =~ /name: (.*)/) {
+                        $id = $1;
+                    }
                     next;
                 }
                 print "<p>";        
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
             }        
-
-        } 
-         print <<eof;
+            print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
     <input type="submit" name="submit">
@@ -1025,6 +1027,8 @@ sub search_feed($) {
     <input type="submit" name="submit">
 </form>
 eof
+
+        } 
     }
     
 }
