@@ -129,7 +129,7 @@ sub approve($) {
             open(F, "$bleats_dir/$complaint_file") or die;
             @list;
             for $line (<F>) {
-                push($line, @list);
+                push @list, $line;
             }
             close F;
             open(F, ">", "$bleats_dir/$complaint_file") or die;
