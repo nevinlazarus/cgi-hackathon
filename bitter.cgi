@@ -801,13 +801,7 @@ sub print_bleats($) {
     $user_to_show = $_[0];
     
     open my $user, "$user_to_show/details.txt";
-    my $listeners = "";
-    for (<$user>) {
-        if (/^listens/) {
-            $listeners = $_; #find the line with listeners
-            last;
-        }
-    }
+
     $user_to_show =~ s/.*\///;
     
     my $bleat_index = 0;
@@ -859,8 +853,8 @@ sub print_bleats($) {
     }
     
     print "<br>";
-    print "<a href=?n=".param('n')."&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
-    print "<a href=?n=".param('n')."&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
+    print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
+    print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
 
 
