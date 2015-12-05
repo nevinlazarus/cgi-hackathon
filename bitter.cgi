@@ -46,7 +46,7 @@ sub main() {
         %cookies = fetch CGI::Cookie;
         print_login();
     } else {
-        if (defined $cookies{'auth'} && $cookies{'auth'}->value != 0) { #logged in already
+        if (defined $cookies{'auth'} && $cookies{'auth'}->value ne '0') { #logged in already
             $logged_in = 1;
             print_logout();
         } else {
