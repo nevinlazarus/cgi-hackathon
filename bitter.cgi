@@ -172,7 +172,7 @@ sub send_account_confirm {
 		return;
 	}
         $to = "$email";
-        $url = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi"
+        $url = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi";
         $from = 'z5013079@zmail.unsw.edu.au';
         $subject = 'Welcome to Korform!';
         $message = "Your account has been created. Copy and paste the following url into your browser to confirm your registration:
