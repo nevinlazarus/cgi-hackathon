@@ -123,7 +123,7 @@ sub main() {
 
 approve($) {
     $id = $_[0];
-    foreach $complaint_file (sort(glob("$bleats_dir/*"))) {
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
         if ($complaint_file eq $id) {
             open(F, "$bleats_dir/$complaint_file") or die;
@@ -131,6 +131,7 @@ approve($) {
             for $line (<F>) {
                 push($line, @list);
             }
+            close F;
             open(F, ">", "$bleats_dir/$complaint_file") or die;
             for $line (@list) {
 
@@ -142,6 +143,7 @@ approve($) {
                                 
                 print F, $line;
             }
+            close F;
         }
     }
 }
