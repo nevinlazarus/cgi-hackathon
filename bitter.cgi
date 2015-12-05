@@ -177,6 +177,7 @@ sub print_login {
         print "Confirmation successful! Please login.\n";
     }
     print <<END_OF_HTML;
+<br><br><br><br>
 <div>
     <form method="POST" action="">
         <label>Username:</label>
@@ -196,6 +197,7 @@ END_OF_HTML
 
 sub print_logout {
     print <<END_OF_HTML;
+<br><br><br><br>    
 <div class='nav' >
     <form method="POST" action="">
         <input type="hidden" name="logout" value="1">
