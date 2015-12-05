@@ -91,9 +91,6 @@ sub main() {
 	print post();
     }
 
-    if (param('confirm_user')) {
-    	create_user_account();
-    }
     
     if (param('group')) {
 	send_account_confirm();
@@ -172,6 +169,7 @@ sub send_account_confirm {
 		print "Username is already taken";
 		return;
 	}
+        create_user_account();
         $to = "$email";
         $url = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi";
         $from = 'z5013079@zmail.unsw.edu.au';
