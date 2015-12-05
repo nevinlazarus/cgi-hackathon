@@ -647,6 +647,10 @@ sub page_trailer {
     return $html;
 }
 
+sub send_notification_email() {
+    
+}
+
 sub Ret {
     return <<eof
 <form method="POST">
