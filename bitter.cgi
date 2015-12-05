@@ -110,6 +110,7 @@ sub create_user_account {
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
 	print DETAILS "idnum: $nik\n";
+        print DETAILS "org: $org\n";
 	close DETAILS;
 	
 }
@@ -154,10 +155,7 @@ sub org_sign_up{
     print "Email:\n", textfield(-name=>'email',-override=>1), "<br>\n";
 
     print submit('newaccount','Create'), "\n";
-    print end_form, "\n";
-
-
-    
+    print end_form, "\n"; 
 }
 sub sign_up_screen {
 	print <<eof;
