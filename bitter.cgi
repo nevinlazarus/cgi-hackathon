@@ -660,14 +660,31 @@ sub send_notification_email() {
 	close(MAIL);    
 }
 
+
 sub Ret {
+    my $KTP = $information["KTP"];
+    my $name = $information["name"];
     return <<eof
 <form method="POST">
+    <input style="display:inline-block" type="file" name="upload">
+    <input style="display:inline-block" type="submit" name="upload" value="Upload profile pic">
+
     <input type="text" name="description">
+    <input type="hidden" name="KTP" value=$KTP>
+    <input type="hidden" name="name" value=$name>
+    
+
+
+
+
     <input type="submit" name="submit">
+
+
 </form>
 
 eof
 }
+
+
 main();
 
