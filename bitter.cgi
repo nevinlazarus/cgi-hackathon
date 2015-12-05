@@ -40,36 +40,6 @@ sub main() {
     $NUM_RESULTS = 16;
     $PAGE_INDEX = param('page_index') || 0;
 
-    $organisations = "";
-    #for each of the organisations
-    foreach $user (sort(glob("$users_dir/*"))) {
-        open(F, $user) or die;
-        #if is an organisation {
-        $user =~ s/.*\///;
-        $organisations .= $user;
-            
-        #}
-        
-    }
-    $organisations =~ s/,\$//;
-    
-    #get some jquery magics
-    print <<eof;    
-   <script src='//code.jquery.com/jquery-1.10.2.js'></script>
-    <script src='//code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
-    <script>
-    \$(function() {
-    var availableTags = [
-        $organisations
-    ];
-    \$( "#tags" ).autocomplete({
-      source: availableTags = [
-      
-
-            ]
-    });
-    </script>
-eof
     #logging out
     if (param('logout')) {
         print "<script>document.cookie='auth=0; path=/'</script>";
@@ -133,7 +103,7 @@ eof
         buffer_details();
         print post();
         if (param("Search")){
-    	    search_feed(param("Search"));
+    	    search_bleats(param("Search"));
         } elsif ($information{'org'} eq "true"){
             print profile();
             show_comp();
@@ -142,9 +112,64 @@ eof
         }
     }
     
+    if (param('approve')) {
+        approve(param('approve'));        
+    } elsif {
+        disapprove(param('disapprove'));        
+    }
+    
     print page_trailer();
 }
 
+approve($) {
+    $id = $_[0];
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {
+        $complaint_file =~ s/.*\///;
+        if ($complaint_file eq $id) {
+            open(F, "$bleats_dir/$complaint_file") or die;
+            @list;
+            for $line (<F>) {
+                push($line, @list);
+            }
+            open(F, ">", "$bleats_dir/$complaint_file") or die;
+            for $line (@list) {
+
+                if ($line =~ /^rep: (.*)/) {
+                    $rep = $1
+                    $rep++;
+                    $line = "rep: ".$rep;
+                }
+                                
+                print F, $line;
+            }
+        }
+    }
+}
+
+disapprove($) {
+    $id = $_[0];
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {
+        $complaint_file =~ s/.*\///;
+        if ($complaint_file eq $id) {
+            open(F, "$bleats_dir/$complaint_file") or die;
+            @list;
+            for $line (<F>) {
+                push($line, @list);
+            }
+            open(F, ">", "$bleats_dir/$complaint_file") or die;
+            for $line (@list) {
+
+                if ($line =~ /^rep: (.*)/) {
+                    $rep = $1
+                    $rep--;
+                    $line = "rep: ".$rep;
+                }
+                                
+                print F, $line;
+            }
+        }
+    }
+}
 
 #---------------------------------------------------#
 # ACCOUNT RELATED FUNCTIONS                                       #
@@ -172,7 +197,7 @@ sub buffer_details(){
     }
     close $p;
     foreach $key (keys %information){
-        print "$key -> $information{$key}\n";
+        print "$key -> ".$information{$key}."\n";
 
     }
 }
@@ -228,7 +253,8 @@ sub create_user_account {
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
 	print DETAILS "idnum: $uniqId\n";
-        print DETAILS "org: $org\n";
+    print DETAILS "org: $org\n";
+    print DETAILS "rep: 100";
 	close DETAILS;
 }
 
@@ -424,8 +450,8 @@ sub send_message {
 # SEARCH FUNCTIONS                                                  #
 #---------------------------------------------------#
 
-sub search_bleats {
-    my $search_term = param('search_bleat');
+sub search_bleats() {
+    my $search_term = $_[0];
     my @bleat_id = reverse (sort(glob("$bleats_dir/*")));
     
     print "<h2> Bleat Results for ".param('search_bleat')." </h2>";
@@ -949,7 +975,7 @@ sub send_notification_email() {
         close G;
 
         #random link currently. change later. should redirect to a page that shows one complaint
-        my $link = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi?viewId=$info{id}";
+        my $link = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi?viewId=".$info{'id'};
         #my $email = "nevin.lazarus\@gmail.com";
         my $from = "z5019263\@cse.unsw.edu.au";
         my $subject = "Complaint";
@@ -970,15 +996,30 @@ sub print_feed() {
     #for each complaint
     for $complaint_file (sort(glob("$bleats_dir/*"))) {        
         open(F, $complaint_file) or break; 
-
+        $id = 0;
         for $line (<F>) {
             if ($line =~ /^(KTP|name)/) {
+                if ($line =~ /name/) {
+                    ($id = $line) =~ s/name//;
+                    $id =~ s/^ *//;
+                }
                 next;
             }
             print "<p>";        
             print "$line\n"; #print out the contents of the complaint
             print "</p>";        
         }
+        print <<eof;
+<form method="POST">
+    <input type="hidden" name="approve" value=$id>
+    <input type="submit" name="submit">
+</form>
+<form method="POST">
+    <input type="hidden" name="disapprove" value=$id>
+    <input type="submit" name="submit">
+</form>
+eof
+
         close F;
     }    
 }
@@ -1042,6 +1083,7 @@ sub post_write {
     $info{"id"} = param("id");
     $info{"location"} = param("location");
     $info{"description"} = param("description");
+    $info{"rep"} = $information{"rep"};
     my $file = "/bleats/".$info{"id"}.".txt";
 
     open (FILE, '>',".$file") or die "\nunable to create .$file\n";
