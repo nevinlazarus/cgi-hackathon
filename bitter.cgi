@@ -472,7 +472,6 @@ sub search_bleats($) {
                 next;
             }
             
-            
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
             seek F, 0, 0;
             
@@ -480,16 +479,13 @@ sub search_bleats($) {
                 print $_."<br>";
                 
             }
-            (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
-            print "<a href=?bleat_reply=$bleat_reply_id>Reply</a>" if ($logged_in);
-            print "<br>";
             print "</div>";
         }
         close F;
     }
     print "<br>";
-    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
-    print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
+    print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
+    print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 } 
 
 sub search(){
@@ -805,29 +801,6 @@ sub print_bleats($) {
         
         open my $b, "$bleat" or die;
         
-        my $include = 0;
-        for (<$b>) {
-            if ($logged_in && $cookies{'auth'}->value eq $user_to_show) { #can view bleats related to the logged in use
-                if (/$user_to_show/) {
-                    $include = 1;
-                    last;
-                } elsif (/username: /) {
-                    s/username: //; #removes the field name
-                    if ($listeners =~ /$_/) { #the user is being listened to
-                        $include = 1;
-                        last;
-                    }
-                }
-            } else {
-                if (/username: $user_to_show/) {
-                    $include = 1;
-                    last;
-                }
-            }
-        }
-        if (!$include) {
-            next;
-        }
         $bleat_index++;
         if ($bleat_index <= ($PAGE_INDEX * $NUM_RESULTS)) {
             next;
@@ -837,7 +810,7 @@ sub print_bleats($) {
 
 		print "<div class='bleat' style=background-color:#F0F8FF;>";
         seek $b, 0, 0;
-        for (sort <$b>) {
+        for (<$b>) {
 
             print $_."<br>";
         }
@@ -1018,18 +991,19 @@ sub search_feed($) {
                 print "<p>";        
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
-            }        
-            print <<eof;
+            }
+            if ($cookies{'auth'} eq "Freelancer") {        
+                print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
-    <input type="submit" name="submit">
+    <input type="submit" name="Approve">
 </form>
 <form method="POST">
     <input type="hidden" name="disapprove" value=$id>
-    <input type="submit" name="submit">
+    <input type="submit" name="Disapprove">
 </form>
 eof
-
+            }
         } 
     }
     
