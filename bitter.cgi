@@ -116,8 +116,6 @@ eof
     
     if (param("post_write") eq "True"){
     	post_write();
-    } else {
-	    print post();
     }
 
     
@@ -130,6 +128,7 @@ eof
     }
 
     if ($logged_in) {
+        print post();
         if (param("Search")){
     	    search_feed(param("Search"));
         } else {
