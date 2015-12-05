@@ -129,7 +129,7 @@ eof
         org_sign_up();
     }
 
-    if ($logged_in && $cookies{'auth'} ne '0') {
+    if ($logged_in && defined $cookies{'auth'} && $cookies{'auth'} ne '0') {
         buffer_details();
         print post();
         if (param("Search")){
@@ -151,7 +151,7 @@ eof
 #buffer the information hash
 sub buffer_details(){
     %cookies = fetch CGI::Cookie;
-    if (!defined $cookies{'auth'}) return;
+
     my $username = $cookies{'auth'}->value;
     print "Logged in as $username\n";
     my $details_filename = "./$users_dir/$username/details.txt";
