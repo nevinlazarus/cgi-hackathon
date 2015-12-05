@@ -96,10 +96,10 @@ eof
                     $password_line =~ s/ //g;
                     if ($password eq $password_line) {
                         print "<script>document.cookie='auth=".param('username')."; path=/'</script>";
-			 param('n', $name_to_int{param('username')}); #gets the number associated with the username
+			            param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                         $logged_in = 1;
-                        $cookies{'auth'} = param('username');
+                        %cookies = fetch CGI::Cookie;
                     } else {
                         print_login();
                         print "Wrong Password\n";
