@@ -646,7 +646,18 @@ sub page_trailer {
 }
 
 sub send_notification_email() {
-    
+    my $email = "nevin.lazarus\@gmail.com";
+	my $from = "z5019263\@cse.unsw.edu.au";
+	my $subject = "Complaint";
+	my $message = "You've received a complaint!";
+	open(MAIL, "|/usr/sbin/sendmail -t");
+	# Email Header
+	print MAIL "To: $email\n";
+	print MAIL "From: $from\n";
+	print MAIL "Subject: $subject\n\n";
+	# Email Body
+	print MAIL $message;
+	close(MAIL);    
 }
 
 sub Ret {
