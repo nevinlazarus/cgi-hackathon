@@ -980,7 +980,7 @@ eof
 }
 
 sub post_write {
-    %info = {};
+    %info = ();
     $info{"KTP"} = $information{"idnum"};
     $info{"name"} = $information{"username"};
     $info{"id"} = param("id");
