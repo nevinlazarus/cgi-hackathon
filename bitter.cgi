@@ -43,7 +43,7 @@ sub main() {
 
     $organisations = ""
     #for each of the organisations
-    for $user (sort(glob("$users_dir/*"))) {
+    foreach $user (sort(glob("$users_dir/*"))) {
         open(F, $user) or die;
         #if is an organisation {
             $organisations .= "$organisation_name,"; 
