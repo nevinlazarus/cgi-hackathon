@@ -450,7 +450,7 @@ sub search_bleats($) {
     my $search_term = $_[0];
     my @bleat_id = reverse (sort(glob("$bleats_dir/*")));
     
-    print "<h2> Bleat Results for ".$search_term." </h2>";
+    print "<h2> Search Results for ".$search_term." </h2>";
     my $bleat_index = 0;
     for my $bleat (@bleat_id) {
         open F, $bleat or die;
@@ -472,10 +472,7 @@ sub search_bleats($) {
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
             seek F, 0, 0;
             
-            for (sort <F>) {
-                print $_."<br>";
-                
-            }
+            print <F>;
             print "</div>";
         }
         close F;
