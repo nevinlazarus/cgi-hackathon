@@ -760,6 +760,72 @@ eof
 }
 
 
+#org complaint page
+sub org_complaints {
+    #print toggle();
+    my $toShow = param('orgprofile');
+    my $bleats_filename = "$users_dir/$toShow/bleats.txt";
+    #add complaints to array list
+    open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
+        while (my $line = <$p>){
+            chomp $line;
+            push @bleatstoprint, "$line";
+        }
+    close $p;
+
+    #if empty array, print Nothing to show
+    if(@bleatstoprint){}
+    else{
+        print "Nothing to show\n";
+        return;    
+    }
+    #reverse chronological order
+    @bleatstoprint = reverse sort @bleatstoprint;
+    my $i = 0;
+    foreach $element (@bleatstoprint){
+        if($i >= 20){ #shows up to first 20 bleats
+            last;
+        }
+        @onebleat = (); #reset onebleat holder
+        
+        #open bleat, parse information and push into onebleat array
+        open my $b, "$bleats_dir/${element}" or die "cannot open $bleats_dir/${element}: $!";;
+            push @onebleat, "<div class=\"bitter_user_bleats\"\n>";
+            while (my $bleatdetail = <$b>){
+                chomp $bleatdetail;
+                if($bleatdetail =~ /^time: (.*)/){
+                    $epoch = $1;
+                    $dt = scalar localtime($epoch);
+                    push @onebleat, "$dt\n";
+                } elsif ($bleatdetail =~ /(^longitude: )|(^latitude: )/){
+                    #ignore
+                } elsif ($bleatdetail =~ /^bleat: (.*)/){
+                    my $text = $1;
+                    push @onebleat,"<b>$text</b>\n";
+                } elsif ($bleatdetail =~ /^username: (.*)/){
+                    $bleater = $1;
+                } else {
+                    push @onebleat, "$bleatdetail\n";
+                }
+            
+            }
+        close $b;
+        
+        #turn @onebleat into a single string and push to total array bleats
+        $bleat_to_show = join '',@onebleat;
+        push @bleats, "$bleat_to_show";
+        $i++;
+    }
+
+    #print bleats
+    foreach $post (@bleats){
+       print "$post";
+    }
+   return;
+
+}
+
+
 
 sub print_bleats($) {
     $user_to_show = $_[0];
