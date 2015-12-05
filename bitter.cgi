@@ -129,6 +129,10 @@ eof
         org_sign_up();
     }
     
+    if ($logged_in) {
+        print_feed();
+    }
+    
     print page_trailer();
 }
 
