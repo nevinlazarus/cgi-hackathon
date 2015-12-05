@@ -10,9 +10,8 @@ use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 use Mail::Sendmail;
 use File::Copy;
 
+%information = {};
 sub main() {
-    
-
     # print start of HTML ASAP to assist debugging if there is an error in the script
     print page_header();
     
@@ -125,7 +124,7 @@ eof
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
-	    sign_up_screen();
+	sign_up_screen();
         org_sign_up();
     }
 
@@ -140,6 +139,23 @@ eof
 #---------------------------------------------------#
 # ACCOUNT RELATED FUNCTIONS                                       #
 #---------------------------------------------------#
+#buffer the information hash
+sub buffer_details(){
+    my $username = cookies{"username"};
+    my $details_filename  = "./$users_dir/$username/details.txt";
+    open my $p, "$details_filename" or die "can not open $details_filename: $!";
+    while (my $line = <$p>){
+        chomp $line;
+        #if ($line =~ /^listens: (.*)/){
+        #    @listens = split(' ',$1);
+        #    #$information{"listens"}= \@listens;
+        #}els
+        if($line =~ /([^:]+): (.*)/){
+            $information{"$1"}= "$2";
+        }
+    }
+    close $p;
+}
 
 sub print_login {
     #<input type="submit" value="Forgot Password" class="btn"> TODO add later
