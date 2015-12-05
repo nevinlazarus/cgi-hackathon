@@ -980,11 +980,11 @@ sub send_notification_email() {
             }
         }
         close F;
-        push @list, $info{'id'}."\n"
+        push @list, $info{'id'}."\n";
 
         #read/copy list of complaint IDs
         open FILE, "./$users_dir/$related/list.txt" or die "cannot open ./$users_dir/$related/list.txt: $!";
-        while(my $line = <F>){
+        while(my $line = <FILE>){
             push @list, $line;
         }
         close FILE;
