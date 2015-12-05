@@ -1025,7 +1025,7 @@ sub post {
     return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload"> <br>
-    Description: <input type="textarea" default="Describe the incident" rows="3" columns="60" name="description"> <br>
+    Description: <textarea default="Describe the incident" rows="3" columns="60" name="description"> <br>
     Location/Organisation: <input type="text" name="location"> <br>
     <input type="hidden" name="id" value=$id>
     <input type="hidden" name="post_write" value="True">
