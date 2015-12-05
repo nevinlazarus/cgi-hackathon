@@ -41,12 +41,12 @@ sub main() {
     $NUM_RESULTS = 16;
     $PAGE_INDEX = param('page_index') || 0;
 
-    $organisations = ""
+    $organisations = "";
     #for each of the organisations
     foreach $user (sort(glob("$users_dir/*"))) {
         open(F, $user) or die;
         #if is an organisation {
-            $organisations .= "$organisation_name,"; 
+        $organisations .= "$organisation_name,"; 
             
         #}
         
