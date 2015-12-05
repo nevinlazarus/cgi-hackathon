@@ -142,8 +142,7 @@ eof
 #---------------------------------------------------#
 #buffer the information hash
 sub buffer_details(){
-    my $username = cookies{"auth"}->value;
-    print "Logged in as $username\n";
+    my $username = $cookies{"auth"}->value;
     my $details_filename  = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
@@ -920,14 +919,15 @@ sub send_notification_email() {
 #prints out a feed of complaints
 sub print_feed() {
     #for each complaint
-    for $complaint_file (sort(glob("$bleats_dir/*"))) {
-        print $complaint_file;
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {        
         open(F, $complaint_file) or break; 
-        print "<label>";
-        for (<F>) {
+
+        for $line (<F>) {
+            print "<label>";        
             print "$line\n"; #print out the contents of the complaint
+            print "</label>";        
         }
-        print "</label>";        
+    
     }    
 }
 
