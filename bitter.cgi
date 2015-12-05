@@ -890,30 +890,42 @@ sub search_feed($) {
 }
 
 
-sub Ret {
-    my $KTP = $information["KTP"];
-    my $name = $information["name"];
+sub post {
+    #my $KTP = $information["KTP"];
+    #my $name = $information["name"];
+    my $id = localtime;
+    $id =~ s/[^\d]//g;
     return <<eof
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
-    <input style="display:inline-block" type="submit" name="upload" value="Upload profile pic">
-
-    <input type="text" name="description">
-    <input type="hidden" name="KTP" value=$KTP>
-    <input type="hidden" name="name" value=$name>
-    
-
-
-
-
+    Descri[tion: <input type="text" name="description">
+    Locaiton/Organisation: <input type="text" name="location">
+    #<input type="hidden" name="KTP" value=$KTP>
+    #<input type="hidden" name="name" value=$name>
+    <input type="hidden" name="id" value=$id>
     <input type="submit" name="submit">
-
-
 </form>
-
 eof
 }
 
+sub post_write {
+    %info = {};
+    $info["KTP"] = $information["KTP"];
+    $info["name"] = $information["name"];
+    $info["id"] = param("id");
+    $info["location"] = param("location");
+    $info["description"] = param("description");
+    
+    open(FILE, "$info["id"].txt")
+
+    foreach $i (keys sort %info){
+        if ($i eq "id"){
+            continue;
+	}
+        print FILE $info[$i];
+    }
+
+}
 
 main();
 
