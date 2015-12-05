@@ -129,7 +129,7 @@ eof
         org_sign_up();
     }
 
-    if ($logged_in && defined $cookies{'auth'} && $cookies{'auth'} ne '0') {
+    if ($logged_in && defined $cookies{'auth'} && $cookies{'auth'} != 0) {
         buffer_details();
         print post();
         if (param("Search")){
