@@ -129,19 +129,19 @@ sub approve($) {
             open(F, "$bleats_dir/$complaint_file") or die;
             @list;
             for $line (<F>) {
-                push($line, @list);
+                push @list, $line;
             }
             close F;
             open(F, ">", "$bleats_dir/$complaint_file") or die;
             for $line (@list) {
 
                 if ($line =~ /^rep: (.*)/) {
-                    $rep = $1
+                    $rep = $1;
                     $rep++;
                     $line = "rep: ".$rep;
                 }
                                 
-                print F, $line;
+                print F $line;
             }
             close F;
         }
@@ -156,19 +156,21 @@ sub disapprove($) {
             open(F, "$bleats_dir/$complaint_file") or die;
             @list;
             for $line (<F>) {
-                push($line, @list);
+                push @list, $line;
             }
+            close F;
             open(F, ">", "$bleats_dir/$complaint_file") or die;
             for $line (@list) {
 
                 if ($line =~ /^rep: (.*)/) {
-                    $rep = $1
+                    $rep = $1;
                     $rep--;
                     $line = "rep: ".$rep;
                 }
                                 
-                print F, $line;
+                print F $line;
             }
+            close F;
         }
     }
 }
@@ -181,7 +183,7 @@ sub buffer_details(){
     %cookies = fetch CGI::Cookie;
 
     my $username = $cookies{'auth'}->value;
-    if ($username == 0) {
+    if ($username eq '0') {
         return;
     }
     print "Logged in as $username\n";
@@ -734,7 +736,7 @@ sub show_comp() {
     my $toShow = $information{'username'};
     my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
-    open my $p, "$bleats_filename" or die "can not open $bleats_filename: $!";
+    open my $p, ">", "$bleats_filename" or die "can not open $bleats_filename: $!";
         while (my $line = <$p>){
             chomp $line;
             push @bleatstoprint, "$line";
