@@ -918,9 +918,9 @@ sub print_feed() {
         open(F, $complaint_file) or break; 
 
         for $line (<F>) {
-            print "<label>";        
+            print "<p>";        
             print "$line"; #print out the contents of the complaint
-            print "</label><br>";        
+            print "</p><br>";        
         }
     
     }    
