@@ -84,6 +84,7 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
+    post;
 	
     if (param('confirm_user')) {
     	create_user_account();
@@ -334,58 +335,7 @@ sub send_message {
     close BLEAT_FILE;
     
     open BLEAT_LIST, '>>'."$users_dir/$user_to_show/bleats.txt";
-    print BLEAT_LIST (int($bleat_id[0])+1), "\n";
-    
-    close BLEAT_LIST;
-}
-
-#---------------------------------------------------#
-# GENERAL FUNCTIONS                                                  #
-#---------------------------------------------------#
-sub list_users(){
-    my @users = <./$users_dir/*>;
-    my $directory = quotemeta"$users_dir";
-    @users = grep(!/temporary/,@users);
-    foreach my $user (@users) {
-               $user =~ s/\.\/$directory\///;
-               print '<form method="POST" action="">';
-               print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-               print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-               print "<input type=\"submit\" name=\"userprofile\" value=\"$user\" class=\"user_button\">\n";
-               print "</form>";
-    
-    }
-    return;
-}
-sub buffer_details(){
-    my $user_to_show  = "./$users_dir/$username";
-    my $details_filename = "$user_to_show/details.txt";
-    open my $p, "$details_filename" or die "can not open $details_filename: $!";
-    while (my $line = <$p>){
-        chomp $line;
-        if ($line =~ /^listens: (.*)/){
-            @listens = split(' ',$1);
-            #$information{"listens"}= \@listens;
-        }elsif($line =~ /([^:]+): (.*)/){
-            $information{"$1"}= "$2";
-        }
-    }
-    close $p;
-}
-
-
-
-sub message_box {
-    my $bleat_reply = param('bleat_reply') || ""; 
-    print <<END_OF_HTML;
-<div>
-    <form method="POST" action="">
-        <input type="text" name="message" maxlength="142">
-        <input type="hidden" name="bleat_reply" value="$bleat_reply">
-        <input type="submit" value="Send Message" class="btn">
-    </form>
-</div>
-END_OF_HTML
+ 
 }
 
 #---------------------------------------------------#
@@ -433,7 +383,7 @@ sub search_bleats {
     print "<br>";
     print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?search_bleat=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
-}
+} 
 
 sub search(){
     $query = param('query');
