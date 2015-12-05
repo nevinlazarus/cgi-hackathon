@@ -46,7 +46,7 @@ sub main() {
         %cookies = fetch CGI::Cookie;
         print_login();
     } else {
-        if (defined $cookies{'auth'} && $cookies{'auth'}->value != 0) { #logged in already
+        if (defined $cookies{'auth'} && $cookies{'auth'}->value ne '0') { #logged in already
             $logged_in = 1;
             print_logout();
         } else {
@@ -454,11 +454,11 @@ sub send_message {
 # SEARCH FUNCTIONS                                                  #
 #---------------------------------------------------#
 
-sub search_bleats() {
+sub search_bleats($) {
     my $search_term = $_[0];
     my @bleat_id = reverse (sort(glob("$bleats_dir/*")));
     
-    print "<h2> Bleat Results for ".param('search_bleat')." </h2>";
+    print "<h2> Bleat Results for ".$search_term." </h2>";
     my $bleat_index = 0;
     for my $bleat (@bleat_id) {
         open F, $bleat or die;
@@ -736,7 +736,7 @@ sub show_comp() {
     my $toShow = $information{'username'};
     my $bleats_filename = "./$users_dir/$toShow/list.txt";
     #add complaints to array list
-    open my $p, ">", "$bleats_filename" or die "can not open $bleats_filename: $!";
+    open my $p, "<", "$bleats_filename" or die "can not open $bleats_filename: $!";
         while (my $line = <$p>){
             chomp $line;
             push @bleatstoprint, "$line";
@@ -996,35 +996,7 @@ sub send_notification_email() {
 
 #prints out a feed of complaints
 sub print_feed() {
-    #for each complaint
-    for $complaint_file (sort(glob("$bleats_dir/*"))) {        
-        open(F, $complaint_file) or break; 
-        $id = 0;
-        for $line (<F>) {
-            if ($line =~ /^(KTP|name)/) {
-                if ($line =~ /name/) {
-                    ($id = $line) =~ s/name//;
-                    $id =~ s/^ *//;
-                }
-                next;
-            }
-            print "<p>";        
-            print "$line\n"; #print out the contents of the complaint
-            print "</p>";        
-        }
-        print <<eof;
-<form method="POST">
-    <input type="hidden" name="approve" value=$id>
-    <input type="submit" name="submit">
-</form>
-<form method="POST">
-    <input type="hidden" name="disapprove" value=$id>
-    <input type="submit" name="submit">
-</form>
-eof
-
-        close F;
-    }    
+    search_feed(".");
 }
 
 #Search for complaints
@@ -1056,6 +1028,16 @@ sub search_feed($) {
             }        
 
         } 
+         print <<eof;
+<form method="POST">
+    <input type="hidden" name="approve" value=$id>
+    <input type="submit" name="submit">
+</form>
+<form method="POST">
+    <input type="hidden" name="disapprove" value=$id>
+    <input type="submit" name="submit">
+</form>
+eof
     }
     
 }
