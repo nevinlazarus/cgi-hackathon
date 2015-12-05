@@ -145,29 +145,29 @@ sub sign_up_screen {
 	<h2> Sign Up </h2>	
 <form method="POST" action="">
     <table> 
-    <tr>    
-	    <label class="signup">Username:</label>
-	    <input type="text" name="sign_user">
-    </tr>
-    <tr>
-	    <label class="signup">Indonesian ID:</label>
-	    <input type="text" name="nik">
-    </tr>
-    <tr>
-	    <label class="signup">Password:</label>
-	    <input type="password" name="sign_pass">
-	</tr>
-	<tr>
-	    <label class="signup">Confirm Password:</label>
-	    <input type="password" name="confirm_pass">
-	</tr>
-	<tr>
-	    <label class="signup">Email:</label>
-	    <input type="text" name="sign_email">
-	</tr>
-	<tr>
-	<input type="submit" value="Submit" class="btn">
-	</tr>
+        <tr>    
+	        <td> <label class="signup">Username:</label> </td>
+	        <td> <input type="text" name="sign_user"> </td>
+        </tr>
+        <tr>
+	        <td> <label class="signup">Indonesian ID:</label> </td>
+	        <td> <input type="text" name="nik"> </td>
+        </tr>
+        <tr>
+	        <td> <label class="signup">Password:</label> </td>
+	        <td> <input type="password" name="sign_pass"> </td>
+	    </tr>
+	    <tr>
+	        <td> <label class="signup">Confirm Password:</label> </td>
+	        <td> <input type="password" name="confirm_pass"> </td>
+	    </tr>
+	    <tr>
+	        <td> <label class="signup">Email:</label> </td>
+	        <td> <input type="text" name="sign_email"> </td>
+	    </tr>
+	    <tr>
+	    <input type="submit" value="Submit" class="btn">
+	    </tr>
 	</table>
 </form>	
 	
@@ -633,7 +633,8 @@ sub Ret {
     <input type="text" name="description">
     <input type="submit" name="submit">
 </form>
-}
 
+eof
+}
 main();
 
