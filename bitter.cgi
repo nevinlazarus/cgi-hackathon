@@ -40,7 +40,34 @@ sub main() {
     
     $NUM_RESULTS = 16;
     $PAGE_INDEX = param('page_index') || 0;
+
+    $organisations = "";
+    #for each of the organisations
+    foreach $user (sort(glob("$users_dir/*"))) {
+        open(F, $user) or die;
+        #if is an organisation {
+        $organisations .= "$organisation_name,"; 
+            
+        #}
+        
+    }
+    $organisations =~ s/,\$//;
     
+    #get some jquery magics
+    print  "<script src='//code.jquery.com/jquery-1.10.2.js'></script>
+  <script src='//code.jquery.com/ui/1.11.4/jquery-ui.js'></script>";
+    print <<eof;
+    \$(function() {
+    var availableTags = [
+        $organisations
+    ];
+    \$( "#tags" ).autocomplete({
+      source: availableTags = [
+      
+
+            ]
+    });
+eof
     #logging out
     if (param('logout')) {
         print "<script>document.cookie='auth=0; path=/'</script>";
@@ -908,7 +935,7 @@ sub post {
     #my $name = $information["name"];
     my $id = localtime;
     $id =~ s/[^\d]//g;
-    return <<eof
+    return <<eof;
 <form method="POST">
     <input style="display:inline-block" type="file" name="upload">
     Description: <input type="text" name="description">
