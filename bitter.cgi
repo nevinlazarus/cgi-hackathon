@@ -141,7 +141,7 @@ sub approve($) {
                     $line = "rep: ".$rep;
                 }
                                 
-                print F, $line;
+                print F $line;
             }
             close F;
         }
@@ -168,7 +168,7 @@ sub approve($) {
                     $line = "rep: ".$rep;
                 }
                                 
-                print F, $line;
+                print F $line;
             }
             close F;
         }
