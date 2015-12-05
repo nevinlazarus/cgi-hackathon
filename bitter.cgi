@@ -186,7 +186,6 @@ sub buffer_details(){
     if ($username eq '0') {
         return;
     }
-    print "Logged in as $username\n";
     my $details_filename = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
@@ -200,10 +199,6 @@ sub buffer_details(){
         }
     }
     close $p;
-    foreach $key (keys %information){
-        print "$key -> ".$information{$key}."\n";
-
-    }
 }
 
 sub print_login {
