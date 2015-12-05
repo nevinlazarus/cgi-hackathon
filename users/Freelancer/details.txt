@@ -1,0 +1,5 @@
+username: Freelancer
+password: abcd
+email: nevin.lazarus@gmail.com
+idnum: 1234
+org: true
