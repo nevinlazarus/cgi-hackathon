@@ -123,7 +123,7 @@ sub main() {
 
 approve($) {
     $id = $_[0];
-    for $complaint_file (sort(glob("$bleats_dir/*"))) {
+    foreach $complaint_file (sort(glob("$bleats_dir/*"))) {
         $complaint_file =~ s/.*\///;
         if ($complaint_file eq $id) {
             open(F, "$bleats_dir/$complaint_file") or die;
