@@ -989,35 +989,7 @@ sub send_notification_email() {
 
 #prints out a feed of complaints
 sub print_feed() {
-    #for each complaint
-    for $complaint_file (sort(glob("$bleats_dir/*"))) {        
-        open(F, $complaint_file) or break; 
-        $id = 0;
-        for $line (<F>) {
-            if ($line =~ /^(KTP|name)/) {
-                if ($line =~ /name/) {
-                    ($id = $line) =~ s/name//;
-                    $id =~ s/^ *//;
-                }
-                next;
-            }
-            print "<p>";        
-            print "$line\n"; #print out the contents of the complaint
-            print "</p>";        
-        }
-        print <<eof;
-<form method="POST">
-    <input type="hidden" name="approve" value=$id>
-    <input type="submit" name="submit">
-</form>
-<form method="POST">
-    <input type="hidden" name="disapprove" value=$id>
-    <input type="submit" name="submit">
-</form>
-eof
-
-        close F;
-    }    
+    search_feed(".");
 }
 
 #Search for complaints
@@ -1049,6 +1021,16 @@ sub search_feed($) {
             }        
 
         } 
+         print <<eof;
+<form method="POST">
+    <input type="hidden" name="approve" value=$id>
+    <input type="submit" name="submit">
+</form>
+<form method="POST">
+    <input type="hidden" name="disapprove" value=$id>
+    <input type="submit" name="submit">
+</form>
+eof
     }
     
 }
