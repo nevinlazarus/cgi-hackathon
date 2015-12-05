@@ -180,11 +180,11 @@ sub print_login {
         <input type="text" name="username">
         <label>Password:</label>
         <input type="password" name="password">
-        <input type="submit" value="Login" class="btn">
+        <input type="submit" value="Login" class="btn btn-primary">
     </form>
     <form method="POST" action="">
         <input type="hidden" name="signup" value=1>
-        <input type="submit" value="Sign-up" class="btn">
+        <input type="submit" value="Sign-up" class="btn btn-success">
     </form>
 </div>
 END_OF_HTML
@@ -866,7 +866,6 @@ Content-Type: text/html
         <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
           <ul class="dropdown-menu">
