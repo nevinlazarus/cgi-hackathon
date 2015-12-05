@@ -89,7 +89,7 @@ sub main() {
     	create_user_account();
     }
     
-    if (param('sign_user') && (param('sign_pass') eq param('confirm_pass')) && param('sign_email') =~ /\@/) {
+    if (param('group')) {
 	send_account_confirm();
     } elsif (param('signup')) {
 	sign_up_screen();
@@ -106,6 +106,11 @@ sub main() {
 
 sub print_login {
     #<input type="submit" value="Forgot Password" class="btn"> TODO add later
+    if (defined param('confirm') && defined param('loggedAs')){
+        my $confirmuser = param('loggedAs');
+        move("./$users_dir/temporary/$confirmuser","./$users_dir/$confirmuser");
+        print "Confirmation successful! Please login.\n";
+    }
     print <<END_OF_HTML;
 <div class='nav'>
     <form method="POST" action="">
@@ -137,13 +142,13 @@ END_OF_HTML
 }
 #complete!
 sub create_user_account {
-	my $new_user = param('confirm_user');
+	my $new_user = param('sign_user');
 	my $new_pass = param('password');
 	my $new_email = param('email');
 	my $uniqId = param('uniqId');
         my $org = param('group');
         mkdir("./$users_dir/temp/$new_user");
-	open DETAILS, ">$users_dir/temp/$new_user/details.txt";
+	open DETAILS, ">$users_dir/temp/$new_user/details.txt" or die "cannot open user file";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
@@ -154,29 +159,29 @@ sub create_user_account {
 
 sub send_account_confirm {
 	my $email = param('sign_email');
-	my $username = param('sign_user');
+	my $newusr = param('sign_user');
 
         #check if username exists
 	if (-d "$users_dir/$username" || -d "$users_dir/temp/$username") {
 		print "Username is already taken";
 		return;
 	}
-	
-	my $password = param('sign_pass');
-	my $from = "z5019263\@cse.unsw.edu.au";
-	my $subject = "Confirm";
-	my $message = "cse.unsw.edu.au/~z5019263/ass2/bitter.cgi?confirm_user=$username";
-	print "Sending mail to $email", ;
-	open(MAIL, "|/usr/sbin/sendmail -t");
-	# Email Header
-	print MAIL "To: $email\n";
-	print MAIL "From: $from\n";
-	print MAIL "Subject: $subject\n\n";
-	# Email Body
-	print MAIL $message;
+        $to = "$email";
+        $from = 'z5013079@zmail.unsw.edu.au';
+        $subject = 'Welcome to Korform!';
+        $message = "Your account has been created. Copy and paste the following url into your browser to confirm your registration:
+    $url?loggedAs=$newusr&confirm=$to";
+         
+        open(MAIL, "|/usr/sbin/sendmail -t");
+        print MAIL "To: $to\n";
+        print MAIL "From: $from\n";
+        print MAIL "Subject: $subject\n";
+        print MAIL "Content-type:text/html\n";
+        print MAIL $message;
 
 	close(MAIL);
-	
+	print "<br>Account created! Please check your email to confirm.<br>\n";
+
 }
 
 sub org_sign_up{
