@@ -617,5 +617,13 @@ sub page_trailer {
     return $html;
 }
 
+sub Ret {
+    return <<eof
+<form method="POST">
+    <input type="text" name="description">
+    <input type="submit" name="submit">
+</form>
+}
+
 main();
 
