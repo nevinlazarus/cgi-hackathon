@@ -180,61 +180,74 @@ sub send_account_confirm {
 }
 
 sub org_sign_up{
-    print "<br><br><h3>Create a new account</h3><p>";
-    print "Only alphanumeric  characters, underscores and dashes are allowed<p> for username and password, to a maximum of 30 characters.<p>";
-    print start_form, "\n";
+    print <<eof;
     
-    print "Username:\n", textfield( -name=>'newusr',
-                                            -override=>1, 
-                                            -pattern=>"[A-Za-z0-9_\-]+",
-                                            -maxlength=>30), "\n<br>";
-    print "Password:\n", password_field(-name=>'newpwd',
-                                                    -override=>1,
-                                                    -pattern=>"[A-Za-z0-9_\-]+",
-                                                    -maxlength=>30), "<br>\n";
-    print "Identification No:\n", password_field(-name=>'newpwd',
-                                                                -override=>1,
-                                                                -pattern=>"[0-9]+",
-                                                                -maxlength=>20), "<br>\n";
-    print "Email:\n", textfield(-name=>'email',
-                                        -pattern=>"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[a-zA-Z0-9]",
-                                        -override=>1), "<br>\n";
-    print hidden('group',"true");
-    print submit('newaccount','Create'), "\n";
-    print end_form, "\n"; 
-}
-sub sign_up_screen {
-	print <<eof;
-	
-	<h2> Sign Up </h2>	
-<form method="POST" action="">
+    <h2> Register Your Organisation or Company</h2>  
+    <p>Only alphanumeric  characters, underscores and dashes are allowed<p> for username and password, to a maximum of 30 characters.<p>
+    <form method="POST" action="">
     <table cellspacing=10> 
         <tr>    
-	        <td> <label class="signup">Username:</label> </td>
-	        <td> <input type="text" name="sign_user"> </td>
+            <td> <label class="signup">Username:</label> </td>
+            <td> <input type="text" name="sign_user" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
         </tr>
         <tr>
-	        <td> <label class="signup">Indonesian ID:</label> </td>
-	        <td> <input type="text" name="sign_uniqId"> </td>
+            <td> <label class="signup">Company ID:</label> </td>
+            <td> <input type="text" name="sign_uniqId" maxlength="16"> </td>
         </tr>
         <tr>
-	        <td> <label class="signup">Password:</label> </td>
-	        <td> <input type="password" name="sign_pass"> </td>
-	    </tr>
-	    <tr>
-	        <td> <label class="signup">Confirm Password:</label> </td>
-	        <td> <input type="password" name="confirm_pass"> </td>
-	    </tr>
-	    <tr>
-	        <td> <label class="signup">Email:</label> </td>
-	        <td> <input type="text" name="sign_email"> </td>
-	    </tr>
-	    <tr>
-	    <input type="submit" value="Submit" class="btn">
-	    </tr>
-	</table>
-</form>	
+            <td> <label class="signup">Password:</label> </td>
+            <td> <input type="password" name="sign_pass" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Confirm Password:</label> </td>
+            <td> <input type="password" name="confirm_pass" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Email:</label> </td>
+            <td> <input type="text" name="sign_email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
+        </tr>
+        <tr>
+        <input type="hidden" name="group" value="true">
+        <input type="submit" value="Submit" class="btn">
+        </tr>
+    </table>
+    </form> 
+
+eof
+}
+sub sign_up_screen {
+    print <<eof;
 	
+    <h2> Sign Up </h2>	
+    <form method="POST" action="">
+    <table cellspacing=10> 
+        <tr>    
+            <td> <label class="signup">Username:</label> </td>
+            <td> <input type="text" name="sign_user" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Indonesian ID:</label> </td>
+            <td> <input type="text" name="sign_uniqId" maxlength="16"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Password:</label> </td>
+            <td> <input type="password" name="sign_pass" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Confirm Password:</label> </td>
+            <td> <input type="password" name="confirm_pass" maxlength="30" pattern="[A-Za-z0-9_-]+"> </td>
+        </tr>
+        <tr>
+            <td> <label class="signup">Email:</label> </td>
+            <td> <input type="text" name="sign_email" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+[a-zA-Z0-9]"> </td>
+        </tr>
+        <tr>
+        <input type="hidden" name="group" value="false">
+        <input type="submit" value="Submit" class="btn">
+        </tr>
+    </table>
+    </form>	
+
 eof
 }
 #---------------------------------------------------#
