@@ -186,7 +186,6 @@ sub buffer_details(){
     if ($username eq '0') {
         return;
     }
-    print "Logged in as $username\n";
     my $details_filename = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
@@ -200,10 +199,6 @@ sub buffer_details(){
         }
     }
     close $p;
-    foreach $key (keys %information){
-        print "$key -> ".$information{$key}."\n";
-
-    }
 }
 
 sub print_login {
@@ -872,7 +867,11 @@ Content-Type: text/html
 <title>Bitter</title>
 <link href="bitter.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
+<style>
+  btn btn-default {
+    padding-top: 60px;
+  }
+</style>
 
 </head>
 <body>
@@ -893,7 +892,7 @@ Content-Type: text/html
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><inputPost<span class="sr-only">(current)</span></a></li>
-        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
+        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></button></li>
         <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
@@ -903,6 +902,9 @@ Content-Type: text/html
         <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
+      
+        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></li>
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">jlkj;lkj<span class="caret"></span></a>
           <ul class="dropdown-menu">
