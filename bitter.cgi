@@ -267,7 +267,7 @@ sub org_sign_up{
         </tr>
         <tr>
             <td> <label class="signup">Company ID:</label> </td>
-            <td> <input type="text" name="sign_uniqId" maxlength="16"> </td>
+            <td> <input type="text" name="sign_uniqId"> </td>
         </tr>
         <tr>
             <td> <label class="signup">Password:</label> </td>
