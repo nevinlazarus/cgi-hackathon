@@ -116,19 +116,19 @@ eof
     %cookies = fetch CGI::Cookie;
     
     if (param("post_write") eq "True"){
-	post_write();
+    	post_write();
     } else {
-	print post();
+	    print post();
     }
 
     
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
-	send_account_confirm();
+    	send_account_confirm();
     } elsif (param('signup')) {
-	sign_up_screen();
+	    sign_up_screen();
         org_sign_up();
     }
-    
+    print $logged_in;
     if ($logged_in) {
         print_feed();
     }
