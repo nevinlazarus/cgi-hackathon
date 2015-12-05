@@ -140,7 +140,7 @@ sub print_login {
     #<input type="submit" value="Forgot Password" class="btn"> TODO add later
     if (defined param('confirm') && defined param('loggedAs')){
         my $confirmuser = param('loggedAs');
-        move("./$users_dir/temporary/$confirmuser","./$users_dir/$confirmuser");
+        move("./$users_dir/tmp/$confirmuser","./$users_dir/$confirmuser");
         print "Confirmation successful! Please login.\n";
     }
     print <<END_OF_HTML;
@@ -179,8 +179,8 @@ sub create_user_account {
 	my $new_email = param('email');
 	my $uniqId = param('uniqId');
         my $org = param('group');
-        mkdir("./$users_dir/temp/$new_user");
-	open DETAILS, ">","./$users_dir/temp/$new_user/details.txt" or die "cannot open ./$users_dir/temp/$new_user/details.txt";
+        mkdir("./$users_dir/tmp/$new_user") or die "cannot make ./$users_dir/tmp/$new_user";
+	open DETAILS, ">","./$users_dir/tmp/$new_user/details.txt" or die "cannot open ./$users_dir/tmp/$new_user/details.txt";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
@@ -194,7 +194,7 @@ sub send_account_confirm {
 	my $newusr = param('sign_user');
 
         #check if username exists
-	if (-d "$users_dir/$newusr" || -d "$users_dir/temp/$newusr") {
+	if (-d "$users_dir/$newusr" || -d "$users_dir/tmp/$newusr") {
 		print "Username is already taken";
 		return;
 	}
