@@ -971,7 +971,7 @@ sub post_write {
     
     foreach $i (sort(keys %info)){
         if ($i ne "id"){
-            print $info[$i];
+            print FILE $info[$i];
 	    }
     }
     close FILE;
