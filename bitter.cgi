@@ -8,6 +8,7 @@ use CGI qw/:all/;
 use CGI::Cookie;
 use CGI::Carp qw/fatalsToBrowser warningsToBrowser/;
 use Mail::Sendmail;
+use File::Copy;
 
 sub main() {
     
