@@ -121,7 +121,7 @@ eof
     }
 
     
-    if (param('group')) {
+    if (param('group') && param('sign_pass') eq param('confirm_pass')) {
 	send_account_confirm();
     } elsif (param('signup')) {
 	sign_up_screen();
@@ -175,7 +175,7 @@ END_OF_HTML
 #complete!
 sub create_user_account {
 	my $new_user = param('sign_user');
-	my $new_pass = param('password');
+	my $new_pass = param('sign_pass');
 	my $new_email = param('email');
 	my $uniqId = param('uniqId');
         my $org = param('group');
@@ -199,6 +199,7 @@ sub send_account_confirm {
 		return;
 	}
         create_user_account();
+
         $to = "$email";
         $url = "http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi";
         $from = 'z5013079@zmail.unsw.edu.au';
