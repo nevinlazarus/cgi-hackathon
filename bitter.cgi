@@ -661,7 +661,7 @@ eof
 # Show unformatted details for user "n".
 # Increment parameter n and store it as a hidden variable
 #
-sub profile {
+sub profile() {
     ##### =>  Complaint list to show is:
     ##### ./$users_dir/$related/list.txt
 
@@ -687,57 +687,13 @@ sub profile {
         }
         $details .= $_;       
     }
-    my $listen_buttons;
-    if ($logged_in) {
-    
-        print <<eof;
-<div>
-    <form  method="post" action="" enctype="multipart/form-data">
-        <input style="display:inline-block" type="file" name="upload">
-        <input style="display:inline-block" type="submit" name="upload" value="Upload profile pic">
-    </form>
-</div>
-eof
-    
-        my $listening = "Listen";
-		fetch CGI::Cookie;
-        open my $user_auth, "$users_dir/".$cookies{'auth'}->value."/details.txt";
-        for (<$user_auth>) {
-            if (/listen/) {
-                (my $other_name = $user_to_show) =~ s/.*\///;
-                if (/$other_name/) { #already listening
-                    $listening = "Unlisten";
-                }
-            }
-        }
-        
-        $listen_buttons = <<eof;
-<form style="display:inline-block" method="POST" action="">
-    <input type="hidden" name="listen" value="$n">
-    <input type="submit" value="$listening" class="btn">
-</form>
-    
-eof
-    } else {
-        $listen_buttons = ""; #cannot listen to user if not logged in
-    }
+
+
     close F;
     my $next_user = $n + 1;
     my $prev_user = $n - 1;
     (my $username = $user_to_show) =~ s/.*\///;
     print <<eof;	
-
-<div>
-    <form style="display:inline" method="POST" action="">
-        <input type="hidden" name="n" value="$prev_user">
-        <input type="submit" value="Previous user" class="btn">
-    </form>
-
-    <form style="display:inline" method="POST" action="">
-        <input type="hidden" name="n" value="$next_user">
-        <input type="submit" value="Next user" class="btn">
-    </form>
-</div>
 
 <table>
 <tr>
