@@ -84,7 +84,11 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
+<<<<<<< HEAD
     print post();
+=======
+    post();
+>>>>>>> 3a87f14eadfc69860cc895cde0be2fb1935cc8bf
 	
     if (param('confirm_user')) {
     	create_user_account();
