@@ -168,7 +168,7 @@ sub send_account_confirm {
 	my $newusr = param('sign_user');
 
         #check if username exists
-	if (-d "$users_dir/$username" || -d "$users_dir/temp/$username") {
+	if (-d "$users_dir/$newusr" || -d "$users_dir/temp/$newusr") {
 		print "Username is already taken";
 		return;
 	}
