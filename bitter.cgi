@@ -848,6 +848,30 @@ sub print_feed() {
             print; #print out the contents of the complaint
         }
         print "</label>";        
+    }    
+}
+
+#Search for complaints
+#First argument is the search term
+sub search_feed($) {
+    my $search_term = CGI::escapeHTML($_[0]);     
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {
+        #check if the file contains the search term
+        open(F, $complaint_file) or break; 
+        $print_complaint = 0;
+        for $line (<F>) {
+            if ($line =~ /$search_term/) {
+                $print_complaint = 1;
+            } 
+        }
+        if ($print_complaint) { #if the file contains the search term
+            print "<label>";
+            open(F, $complaint_file) or break;             
+            for $line (<F>) {
+                print $line;
+            }        
+            print "</label>";   
+        } 
     }
     
 }
