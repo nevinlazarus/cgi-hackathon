@@ -957,7 +957,9 @@ sub post_write {
     $info["id"] = param("id");
     $info["location"] = param("location");
     $info["description"] = param("description");
-    
+
+    print $info["id"];
+
     open (FILE, '>'."/bleats/$info['id'].txt") or die "\nunable to create\n";
     
     foreach $i (sort(keys %info)){
