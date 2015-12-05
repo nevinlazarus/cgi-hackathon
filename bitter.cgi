@@ -808,7 +808,6 @@ Content-Type: text/html
 eof
 }
 
-
 #
 # HTML placed at the bottom of every page
 # It includes all supplied parameter values as a HTML comment
@@ -834,6 +833,19 @@ sub send_notification_email() {
 	# Email Body
 	print MAIL $message;
 	close(MAIL);    
+}
+
+sub print_feed() {
+    #for each complaint
+    for $complaint_file (sort(glob("$bleats_dir/*"))) {
+        open(F, $complaint_file) or break; 
+        print "<label>";
+        for (<F>) {
+            print; #print out the contents of the complaint
+        }
+        print "</label>";        
+    }
+    
 }
 
 
