@@ -114,7 +114,7 @@ eof
         }
     }    
     
-    #%cookies = fetch CGI::Cookie;
+    %cookies = fetch CGI::Cookie;
     
     if (defined param("post_write") && param("post_write") eq "True"){
     	post_write();
@@ -129,7 +129,7 @@ eof
         org_sign_up();
     }
 
-    if ($logged_in) {
+    if ($logged_in && $cookies{'auth'} ne '0') {
         buffer_details();
         print post();
         if (param("Search")){
