@@ -142,7 +142,7 @@ eof
 #---------------------------------------------------#
 #buffer the information hash
 sub buffer_details(){
-    my $username = cookies{"username"};
+    my $username = cookies{"auth"}->value;
     my $details_filename  = "./$users_dir/$username/details.txt";
     open my $p, "$details_filename" or die "can not open $details_filename: $!";
     while (my $line = <$p>){
