@@ -969,7 +969,9 @@ sub print_feed() {
         open(F, $complaint_file) or break; 
 
         for $line (<F>) {
-            if ($line =~ /^(KTP|name)/) next;
+            if ($line =~ /^(KTP|name)/) {
+                next;
+            }
             print "<p>";        
             print "$line"; #print out the contents of the complaint
             print "</p>";        
@@ -987,7 +989,9 @@ sub search_feed($) {
         open(F, $complaint_file) or break; 
         $print_complaint = 0;
         for $line (<F>) {
-            if ($line =~ /^(KTP|name)/) next;
+            if ($line =~ /^(KTP|name)/) {
+                next;
+            }
             if ($line =~ /$search_term/) {
                 $print_complaint = 1;
             } 
@@ -996,7 +1000,9 @@ sub search_feed($) {
     
             open(F, $complaint_file) or break;             
             for $line (<F>) {
-                if ($line =~ /^(KTP|name)/) next;
+                if ($line =~ /^(KTP|name)/) {
+                    next;
+                }
                 print "<p>";        
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
