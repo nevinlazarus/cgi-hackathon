@@ -793,13 +793,7 @@ sub print_bleats($) {
     $user_to_show = $_[0];
     
     open my $user, "$user_to_show/details.txt";
-    my $listeners = "";
-    for (<$user>) {
-        if (/^listens/) {
-            $listeners = $_; #find the line with listeners
-            last;
-        }
-    }
+
     $user_to_show =~ s/.*\///;
     
     my $bleat_index = 0;
@@ -851,8 +845,8 @@ sub print_bleats($) {
     }
     
     print "<br>";
-    print "<a href=?n=".param('n')."&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
-    print "<a href=?n=".param('n')."&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
+    print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
+    print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
 
 
@@ -995,6 +989,7 @@ sub print_feed() {
 #Search for complaints
 #First argument is the search term
 sub search_feed($) {
+    $id = 0;
     my $search_term = CGI::escapeHTML($_[0]);     
     for $complaint_file (sort(glob("$bleats_dir/*"))) {
         #check if the file contains the search term
@@ -1013,15 +1008,16 @@ sub search_feed($) {
             open(F, $complaint_file) or break;             
             for $line (<F>) {
                 if ($line =~ /^(KTP|name)/) {
+                    if ($line =~ /name: (.*)/) {
+                        $id = $1;
+                    }
                     next;
                 }
                 print "<p>";        
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
             }        
-
-        } 
-         print <<eof;
+            print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
     <input type="submit" name="submit">
@@ -1031,6 +1027,8 @@ sub search_feed($) {
     <input type="submit" name="submit">
 </form>
 eof
+
+        } 
     }
     
 }
