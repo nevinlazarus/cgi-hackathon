@@ -98,6 +98,7 @@ eof
                         print "<script>document.cookie='auth=".param('username')."; path=/'</script>";
 			 param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
+                        $logged_in = 1;
                     } else {
                         print_login();
                         print "Wrong Password\n";
