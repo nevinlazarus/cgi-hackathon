@@ -95,8 +95,8 @@ eof
                     chomp($password_line);
                     $password_line =~ s/ //g;
                     if ($password eq $password_line) {
-                        print "<script>document.cookie='auth=".param('username')."';</script>";
-			param('n', $name_to_int{param('username')}); #gets the number associated with the username
+                        print "<script>document.cookie='auth=".param('username')."'; path='/'</script>";
+			            param('n', $name_to_int{param('username')}); #gets the number associated with the username
                         print_logout();
                     } else {
                         print_login();
@@ -120,7 +120,10 @@ eof
 	    print post();
     }
 
-    
+    if (param("Search")){
+    	search();
+    }
+
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
@@ -177,11 +180,11 @@ sub print_login {
         <input type="text" name="username">
         <label>Password:</label>
         <input type="password" name="password">
-        <input type="submit" value="Login" class="btn">
+        <input type="submit" value="Login" class="btn btn-primary">
     </form>
     <form method="POST" action="">
         <input type="hidden" name="signup" value=1>
-        <input type="submit" value="Sign-up" class="btn">
+        <input type="submit" value="Sign-up" class="btn btn-success">
     </form>
 </div>
 END_OF_HTML
@@ -853,35 +856,22 @@ Content-Type: text/html
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Notifications</a></li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" name="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Log out</a></li>
+            <li><a href="#">Organisation pages</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Separated link</a></li>
           </ul>
@@ -928,8 +918,8 @@ sub print_feed() {
 
         for $line (<F>) {
             print "<label>";        
-            print "$line\n"; #print out the contents of the complaint
-            print "</label>";        
+            print "$line"; #print out the contents of the complaint
+            print "</label><br>";        
         }
     
     }    
