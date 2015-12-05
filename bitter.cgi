@@ -103,11 +103,13 @@ sub create_user_account {
 	my $new_user = param('confirm_user');
 	my $new_pass = param('password');
 	my $new_email = param('email');
+	my $nik = param('nik');
 	mkdir "$users_dir/$new_user";
 	open DETAILS, ">$users_dir/$new_user/details.txt";
 	print DETAILS "username: $new_user\n";
 	print DETAILS "password: $new_pass\n";
 	print DETAILS "email: $new_email\n";
+	print DETAILS "idnum: $nik\n";
 	close DETAILS;
 	
 }
