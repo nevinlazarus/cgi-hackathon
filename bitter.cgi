@@ -758,7 +758,7 @@ sub print_bleats($) {
         }
         print "<div class=\"well\">";
         $bleatresult = join '', @bleat;
-        print $bleatresult,"<p></div>";
+        print $bleatresult,"<p><br><p></div>";
 
         (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
         
