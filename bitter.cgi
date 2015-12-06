@@ -944,7 +944,7 @@ sub search_feed($) {
 
                 print "<div class=\"well\">";
                 $bleatresult = join '', @bleat;
-                print $bleatresult,"<p><br><p></div>";
+                print $bleatresult,"<p></div>";
 
 
 
