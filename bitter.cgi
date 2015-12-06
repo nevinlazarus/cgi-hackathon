@@ -942,7 +942,7 @@ sub search_feed($) {
                 push @bleat, "<p>$line </p>\n";
             }
 
-                print "<div class=\"well\">";
+                print "<div class=\"well well-sm\">";
                 $bleatresult = join '', @bleat;
                 print $bleatresult,"<p></div>";
 
