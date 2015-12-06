@@ -466,7 +466,7 @@ sub search_bleats($) {
                 
             }
             print "</div>";
-                        if ($cookies{'auth'} eq "Freelancer") {        
+            if ($cookies{'auth'} eq "Freelancer") {        
                 print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
@@ -477,10 +477,12 @@ sub search_bleats($) {
     <input type="submit" name="Disapprove">
 </form>
 eof
+            }
         }
         
         close F;
     }
+    print "<p></p>";
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 } 
