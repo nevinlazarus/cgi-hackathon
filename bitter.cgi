@@ -927,7 +927,7 @@ sub post_write {
             $tmp = $info{$i};
             print FILE "$i: ".($tmp)."\n";
 
-	}
+	    }
     }
     close FILE;
 
