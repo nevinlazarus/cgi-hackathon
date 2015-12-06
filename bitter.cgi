@@ -466,7 +466,19 @@ sub search_bleats($) {
                 
             }
             print "</div>";
+                        if ($cookies{'auth'} eq "Freelancer") {        
+                print <<eof;
+<form method="POST">
+    <input type="hidden" name="approve" value=$id>
+    <input type="submit" name="Approve">
+</form>
+<form method="POST">
+    <input type="hidden" name="disapprove" value=$id>
+    <input type="submit" name="Disapprove">
+</form>
+eof
         }
+        
         close F;
     }
     print "<br>";
@@ -991,17 +1003,7 @@ sub search_feed($) {
                 print "$line"; #print out the contents of the complaint
                 print "</p>";    
             }
-            if ($cookies{'auth'} eq "Freelancer") {        
-                print <<eof;
-<form method="POST">
-    <input type="hidden" name="approve" value=$id>
-    <input type="submit" name="Approve">
-</form>
-<form method="POST">
-    <input type="hidden" name="disapprove" value=$id>
-    <input type="submit" name="Disapprove">
-</form>
-eof
+
             }
         } 
     }
