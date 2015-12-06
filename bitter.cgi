@@ -846,7 +846,7 @@ Content-Type: text/html
 
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -856,29 +856,45 @@ Content-Type: text/html
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi">Korrum</a>
+      <a class="navbar-brand" href="#">Brand</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <div class="btn-group">
       <ul class="nav navbar-nav">
-        <li><inputPost<span class="sr-only">(current)</span></a></li>
-        <li><button type="submit" class="btn btn-default" value="formpage"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></button></li>
-        <li><button type="submit" class="btn btn-default" value="pastlog"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></button></li>
-      </ul></div>
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="Search">
+          <input type="text" class="form-control" placeholder="Search">
         </div>
-        <button type="submit" class="btn btn-default">Search</button>
+        <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-      
-        <li><form method="POST" action="">
-        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-        </button><input type="hidden" name="logout" value="1">
-        </form></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
