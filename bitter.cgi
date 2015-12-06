@@ -737,11 +737,11 @@ sub print_bleats($) {
     open my $user, "$user_to_show/details.txt";
 
     $user_to_show =~ s/.*\///;
-    
     my $bleat_index = 0;
     
     for my $bleat (reverse sort (glob("$bleats_dir/*"))) {
-        
+        @bleat = ();
+
         open my $b, "$bleat" or die;
         
         $bleat_index++;
@@ -753,10 +753,13 @@ sub print_bleats($) {
 
 		print "<div class='bleat' style=background-color:#F0F8FF;>";
         seek $b, 0, 0;
-        for (<$b>) {
-
-            print $_."<br>";
+        for (my $line = <$b>) {
+            push @bleat, "$_ \n";
         }
+        print "<div class=\"well\">";
+        $bleatresult = join '', @bleat;
+        print $bleatresult,"<p></div>";
+
         (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
         
         print "<a href=?bleat_reply=$bleat_reply_id>Reply</a>"  if ($logged_in);
