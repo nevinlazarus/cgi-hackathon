@@ -207,11 +207,13 @@ sub settings(){
     print start_form, "\n";
 
     print "New password:\n", password_field(-name=>'newpwd',
+                                            -class => 'form-control',
                                             -override=>1,
                                             -pattern=>"[A-Za-z0-9_\-]+",
                                             -maxlength=>30), "<br>\n";
     print "New email:\n", textfield(-name=>'email'), "<br>\n";
     print "Enter current password:\n", password_field(-name=>'oldpwd',
+                                                    -class => 'form-control',
                                                       -override=>1,
                                                       -pattern=>"[A-Za-z0-9_\-]+",
                                                       -maxlength=>30), "<br>\n";
@@ -222,19 +224,23 @@ sub settings(){
 
     print start_form, "\n";
     print "Full Name: \n", textfield(-name=>'name',
+                                     -class => 'form-control',
                                      -default => $information{'full_name'},
                                      -maxlength=>30), "\n<br>";
     print "Home Latitude:\n", textfield(-name=>'latitude', 
+                                        -class => 'form-control',
                                         -pattern=>"[0-9\.\-]+",
                                         -default => $information{'home_latitude'},
                                         -maxlength=>30), "\n<br>";
     
     print "Home Longitude:\n", textfield( -name=>'longitude', 
+                                        -class => 'form-control',
                                          -default => $information{'home_longitude'},
                                          -pattern=>"[0-9\.\-]+",
                                          -maxlength=>30), "\n<br>";
    
     print "Profile description:<br>\n", textarea(-name=>'about',
+                                                -class => 'form-control',
                                                   -default=>$information{'about'},
                                                   -rows=>3,
                                                   -columns=>60,
