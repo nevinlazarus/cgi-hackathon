@@ -446,10 +446,10 @@ sub search_bleats($) {
         my $bleat_text = "";
         for (sort <F>) {
             if (/^bleat/) {
-                $bleat_text = $_;
+                $bleat_text .= $_;
             }
         }
-        $bleat_text =~ s/^bleat: //;        
+        
         if ($bleat_text =~ /$search_term/) {
             $bleat_index++;
             if ($bleat_index <= ($PAGE_INDEX * $NUM_RESULTS)) {
