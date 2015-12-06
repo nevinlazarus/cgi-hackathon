@@ -456,11 +456,14 @@ sub search_bleats($) {
                 next;
             } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
                 next;
-            }            
+            }
+            
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
-            seek F, 0, 0;            
+            seek F, 0, 0;
+            
             for (sort <F>) {
-                print "<p>$_</p>";                
+                print "<p>$_</p>";
+                
             }
             print "</div>";
                         if ($cookies{'auth'} eq "Freelancer") {        
@@ -807,7 +810,7 @@ sub print_bleats($) {
         seek $b, 0, 0;
         for (<$b>) {
 
-            print "<p>".$_."</p>";
+            print $_."<br>";
         }
         (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
         
@@ -835,8 +838,11 @@ Content-Type: text/html
 <title>Bitter</title>
 <link href="bitter.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<style>
+  btn btn-default {
+    padding-top: 60px;
+  }
+</style>
 
 </head>
 <body>
@@ -856,26 +862,16 @@ Content-Type: text/html
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        
         <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>        
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" name="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Link</a></li>
