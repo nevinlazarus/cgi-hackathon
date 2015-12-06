@@ -456,11 +456,14 @@ sub search_bleats($) {
                 next;
             } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
                 next;
-            }            
+            }
+            
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
-            seek F, 0, 0;            
+            seek F, 0, 0;
+            
             for (sort <F>) {
-                print "<p>$_</p>";                
+                print "<p>$_</p>";
+                
             }
             print "</div>";
                         if ($cookies{'auth'} eq "Freelancer") {        
@@ -483,131 +486,6 @@ eof
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 } 
 
-sub search(){
-    $query = param('Suery');
-    print "<div class=\"search\">";
-    print start_form, "\n";
-    print "Search \n", textfield('query'), "\n";
-    print hidden('username',"$username"),"\n";
-    print hidden('loggedin',"$loggedIn"),"\n";
-    print submit('search','Search'), "\n";
-    print end_form, "\n";
-    print "</div>\n";
-    $keyword = quotemeta "$query";
-    $directory = quotemeta"$users_dir";
-    $bleatdir = quotemeta"$bleats_dir";
-    if (defined $keyword && $keyword ne ''){
-
-        
-        #check users
-        print "<h4>Related Users</h4>";
-        
-        
-        #match by username
-        my @users = <./$users_dir/*>;
-        %userresults = ();
-        foreach $user (@users){
-            open   (F, "$user/details.txt");
-            while (my $detail = <F>){
-                if ($detail =~ /^full_name: (.*)/){
-                    my $fullname = $1;
-                    if (($fullname =~ /$keyword/i || $user =~ /$keyword/i)){
-                        $user =~ s/\.\/$directory\///;
-                        $userresults{"$user"} = $fullname;
-                    }      
-                }
-               
-            }
-            close F;
-        
-        }
-       
-        print "<div class=\"results\"\n>";
-
-       if (%userresults){
-            
-            foreach my $key (keys %userresults) {
-               print '<form method="POST" action="">';
-               print "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-               print  "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-               print "<input type=\"submit\" name=\"userprofile\" value=\"$key\" class=\"profile_button\">\n";
-               print "</form>";
-               print "Full name: $userresults{$key}\n";
-                
-            }
-        } else {
-            print "nothing found!\n";
-        }
-        print "</div><p><p></p>";
-        
-        #check bleats
-        print "<h4>Related Bleats</h4>";
-        my @files = <./$bleats_dir/*>;
-        $yes = 0;
-        foreach my $file (@files) {
-
-            @onebleat = ();
-            open   (FILE, "$file");
-            push @onebleat, "<div class=\"bitter_user_bleats\"\n>";
-            while(my $line= <FILE> ){
-                chomp $line;
-                if ($line =~ /^bleat: (.*)/){
-                    $tocheck = $1;
-                    if ($tocheck =~ /$keyword/i){
-                        $yes = 1;
-                    } else {
-                        $yes = 0;
-                    }   
-                    push @onebleat, "<b>$tocheck</b>\n";
-                } elsif($line =~ /^time: (.*)/){
-                    $difference = $1;
-                    $dt = DateTime->new( year       => 1970,
-                                          month      => 1,
-                                          day        => 1,
-                                          time_zone  => "Australia/Sydney",
-                                         );
-                    $dt->add(seconds => $difference);
-                    $dt =~ s/T/ /;
-                    push @onebleat, "$dt\n";
-                } elsif ($line =~ /^username: (.*)/){
-                    
-                    $bleater = $1;
-
-  
-                } elsif ($line =~ /(^longitude: )|(^latitude: )/){
-                    #ignore
-                } else {
-                    push @onebleat, "$line\n";
-                }
-            }
-            close FILE;
-            push @onebleat, '<form method="POST" action="">';
-            push @onebleat, "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-            push @onebleat, "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-            push @onebleat, "<input type=\"submit\" name=\"userprofile\" value=\"$bleater\" class=\"profile_button\">";
-            push @onebleat, "</form>";
-            $element = $file;
-            $element =~ s/\.\/$bleatdir\///;
-            push @onebleat, '<form method="POST" action="">';
-            push @onebleat, "<input type=\"hidden\" name=\"username\" value=\"$username\">";
-            push @onebleat, "<input type=\"hidden\" name=\"loggedin\" value=\"$loggedIn\">";
-            push @onebleat, "<input type=\"hidden\" name=\"bleattoshow\" value=\"$element\" >";
-            push @onebleat, "<input type=\"submit\" name=\"userprofile\" value=\"reply\" class=\"profile_button\">";
-            push @onebleat, "</form>";
-
-            push @onebleat, "</div>\n";
-            if ($yes == 1){
-                $bleatresult = join '', @onebleat;
-                push @bleats, $bleatresult;
-            } 
-            
-        }
-        foreach $thingy (@bleats){
-            print "$thingy";
-        }
-    }
-    return;
-}
 sub search_results {
 	my $name = param('search_term'); #the search term
 	my $n = 0;
@@ -807,7 +685,7 @@ sub print_bleats($) {
         seek $b, 0, 0;
         for (<$b>) {
 
-            print "<p>".$_."</p>";
+            print $_."<br>";
         }
         (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
         
@@ -835,8 +713,11 @@ Content-Type: text/html
 <title>Bitter</title>
 <link href="bitter.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<style>
+  btn btn-default {
+    padding-top: 60px;
+  }
+</style>
 
 </head>
 <body>
@@ -856,26 +737,16 @@ Content-Type: text/html
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        
         <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
+        <li><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>        
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" name="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Search</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Link</a></li>
