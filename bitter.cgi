@@ -889,10 +889,10 @@ sub post(){
     <div class="jumbotron">
     <h1>Let's fight corruption together.</h1>
     <form method="POST">
-    <input style="display:inline-block" type="file" name="upload"> <p></p>
-    Description: <p></p><textarea default="Describe the incident" rows="3" columns="60" name="description"> </textarea>
-    <p></p>
-    Location/Organisation: <input type="text" name="location"> <p></p>
+    <input style="display:inline-block" type="file" name="upload"> <p>
+    Description: <p><textarea default="Describe the incident" class="form-control" rows="5" name="description"> </textarea>
+    <p>
+    Location/Organisation: <input type="text" name="location"> <p>
     <input type="hidden" name="id" value=$id>
     <input type="hidden" name="post_write" value="True">
     <input type="submit" name="submit">
