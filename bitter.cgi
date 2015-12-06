@@ -86,9 +86,7 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
-    if (defined param("post_write") && param("post_write") eq "True"){
-    	post_write();
-    }
+   
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
@@ -101,6 +99,8 @@ sub main() {
         print post();
         if (param("Search")){
     	    search_bleats(param("Search"));
+        }  elsif (param("post_write") eq "True" || defined param('formpage')){
+            post_write();
         } elsif ($information{'org'} eq "true"){
             print profile();
             show_comp();
@@ -885,7 +885,9 @@ sub post {
     my $id = localtime;
     $id =~ s/[^\d]//g;
     return <<eof;
-<form method="POST">
+    <div class="jumbotron">
+    <h1>Let's fight corruption together.</h1>
+    <form method="POST">
     <input style="display:inline-block" type="file" name="upload"> <p></p>
     Description: <p></p><textarea default="Describe the incident" rows="3" columns="60" name="description"> </textarea>
     <p></p>
@@ -894,6 +896,7 @@ sub post {
     <input type="hidden" name="post_write" value="True">
     <input type="submit" name="submit">
 </form>
+</div>
 eof
 }
 
