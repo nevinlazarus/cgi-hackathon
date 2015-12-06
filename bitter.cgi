@@ -211,7 +211,8 @@ sub settings(){
                                             -override=>1,
                                             -pattern=>"[A-Za-z0-9_\-]+",
                                             -maxlength=>30), "<br>\n";
-    print "New email:\n", textfield(-name=>'email'), "<br>\n";
+    print "New email:\n", textfield(-name=>'email',
+                                            -class => 'form-control',), "<br>\n";
     print "Enter current password:\n", password_field(-name=>'oldpwd',
                                                     -class => 'form-control',
                                                       -override=>1,
