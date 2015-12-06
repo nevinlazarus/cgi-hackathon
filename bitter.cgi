@@ -838,11 +838,8 @@ Content-Type: text/html
 <title>Bitter</title>
 <link href="bitter.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<style>
-  btn btn-default {
-    padding-top: 60px;
-  }
-</style>
+<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 
 </head>
 <body>
