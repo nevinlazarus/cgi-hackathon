@@ -102,6 +102,8 @@ sub main() {
     	    search_bleats(param("Search"));
         }  elsif (defined param('formpage')){
             print post();
+        } elsif (defined param('settings')){
+            settings();
         } elsif ($information{'org'} eq "true"){
             print profile();
             show_comp();
@@ -197,6 +199,65 @@ sub buffer_details(){
         }
     }
     close $p;
+}
+
+sub settings(){
+    print "<div class=\"center\">";
+    print "<h3> Change your details </h3><br><br>\n";
+    print start_form, "\n";
+
+    print "New password:\n", password_field(-name=>'newpwd',
+                                            -override=>1,
+                                            -pattern=>"[A-Za-z0-9_\-]+",
+                                            -maxlength=>30), "<br>\n";
+    print "New email:\n", textfield(-name=>'email'), "<br>\n";
+    print "Enter current password:\n", password_field(-name=>'oldpwd',
+                                                      -override=>1,
+                                                      -pattern=>"[A-Za-z0-9_\-]+",
+                                                      -maxlength=>30), "<br>\n";
+    print hidden('username',"$username"),"\n";
+    print hidden('loggedin',"$loggedIn"),"\n";
+    print submit('imptsettings','Change'), "\n";
+    print end_form, "<br>\n";
+
+    print start_form, "\n";
+    print "Full Name: \n", textfield(-name=>'name',
+                                     -default => $information{'full_name'},
+                                     -maxlength=>30), "\n<br>";
+    print "Home Latitude:\n", textfield(-name=>'latitude', 
+                                        -pattern=>"[0-9\.\-]+",
+                                        -default => $information{'home_latitude'},
+                                        -maxlength=>30), "\n<br>";
+    
+    print "Home Longitude:\n", textfield( -name=>'longitude', 
+                                         -default => $information{'home_longitude'},
+                                         -pattern=>"[0-9\.\-]+",
+                                         -maxlength=>30), "\n<br>";
+   
+    print "Profile description:<br>\n", textarea(-name=>'about',
+                                                  -default=>$information{'about'},
+                                                  -rows=>3,
+                                                  -columns=>60,
+                                                  -maxlength=>500),"\n<br>";
+    print "Maximum length 500 characters, HTML formatting supported.<p>\n";
+    print hidden('username',"$username"),"\n";
+    print hidden('loggedin',"$loggedIn"),"\n";
+    print submit('normalsettings','Edit'), "\n";
+    print end_form, "<br>\n";
+
+    print start_form, "\n";
+    print hidden('username',"$username"),"\n";
+    print hidden('loggedin',"$loggedIn"),"\n";
+    print submit('suspendacc','Suspend Account'), "\n";
+    print end_form, "<br>\n";
+
+    print start_form, "\n";
+    print hidden('username',"$username"),"\n";
+    print hidden('loggedin',"$loggedIn"),"\n";
+    print submit('deleteacc','Delete Account'), "\n";
+    print end_form, "<br>\n";
+    print "</div>";
+
 }
 
 sub print_login {
@@ -889,7 +950,7 @@ sub post(){
     <div class="jumbotron">
     <h1>Let's fight corruption together.</h1>
     <form method="POST">
-    <input style="display:inline-block" type="file" name="upload"> <p>
+    <input class="btn" style="display:inline-block" type="file" name="upload"> <p>
     Description: <p><textarea default="Describe the incident" class="form-control" rows="5" name="description"> </textarea>
     <p>
     Location/Organisation: <input type="text" name="location"> <p>
