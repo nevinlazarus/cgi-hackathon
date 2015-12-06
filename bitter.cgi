@@ -86,7 +86,9 @@ sub main() {
     
     %cookies = fetch CGI::Cookie;
     
-   
+   if(defined param('post_write')&& param('post_write') eq "True"){
+        post_write();
+   }
     if (param('group') && param('sign_pass') eq param('confirm_pass')) {
     	send_account_confirm();
     } elsif (param('signup')) {
@@ -96,11 +98,10 @@ sub main() {
 
     if ($logged_in) {
         buffer_details();
-        print post();
         if (param("Search")){
     	    search_bleats(param("Search"));
-        }  elsif (param("post_write") eq "True" || defined param('formpage')){
-            post_write();
+        }  elsif (defined param('formpage')){
+            print post();
         } elsif ($information{'org'} eq "true"){
             print profile();
             show_comp();
@@ -879,7 +880,7 @@ sub search_feed($) {
 
 
 
-sub post {
+sub post(){
     #my $KTP = $information["KTP"];
     #my $name = $information["name"];
     my $id = localtime;
