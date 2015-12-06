@@ -224,18 +224,7 @@ END_OF_HTML
     $logged_in = 0;
 }
 
-sub print_logout {
-    print <<END_OF_HTML;
-<br><br><br><br>    
-<div class='nav' >
-    <form method="POST" action="">
-        <input type="hidden" name="logout" value="1">
-        <input type="submit" value="Logout" class="btn">
-    </form>
-</div>
-END_OF_HTML
-    $logged_in = 1;
-}
+
 #complete!
 sub create_user_account {
 	my $new_user = param('sign_user');
@@ -874,8 +863,10 @@ Content-Type: text/html
       </form>
       <ul class="nav navbar-nav navbar-right">
       
-        <li><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></li>
-
+        <li><form method="POST" action="">
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+        </button><input type="hidden" name="logout" value="1">
+        </form></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">jlkj;lkj<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -894,7 +885,18 @@ Content-Type: text/html
 <div class="container">
 eof
 }
-
+sub print_logout {
+    print <<END_OF_HTML;
+<br><br><br><br>    
+<div class='nav' >
+    <form method="POST" action="">
+        <input type="hidden" name="logout" value="1">
+        <input type="submit" value="Logout" class="btn">
+    </form>
+</div>
+END_OF_HTML
+    $logged_in = 1;
+}
 #
 # HTML placed at the bottom of every page
 # It includes all supplied parameter values as a HTML comment
