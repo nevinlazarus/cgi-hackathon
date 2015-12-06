@@ -751,7 +751,7 @@ sub print_bleats($) {
             next;
         }
 
-		print "<div class='bleat' style=background-color:#F0F8FF;>";
+	print "<div class='bleat' style=background-color:#F0F8FF;>";
         seek $b, 0, 0;
         for (my $line = <$b>) {
             push @bleat, "$_ \n";
@@ -765,8 +765,6 @@ sub print_bleats($) {
         print "<a href=?bleat_reply=$bleat_reply_id>Reply</a>"  if ($logged_in);
 		print "</div>";
     }
-    
-    print "<p></p>";
     print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
@@ -932,17 +930,23 @@ sub search_feed($) {
         if ($print_complaint) { #if the file contains the search term
     
             open(F, $complaint_file) or break;             
-            for $line (<F>) {
-                if ($line =~ /^(KTP|name)/) {
-                    if ($line =~ /name: (.*)/) {
-                        $id = $1;
-                    }
-                    next;
+                for $line (<F>) {
+                    if ($line =~ /^(KTP|name)/) {
+                        if ($line =~ /name: (.*)/) {
+                            $id = $1;
+                        }
+                        next;
                 }
-                print "<p>";        
-                print "$line"; #print out the contents of the complaint
-                print "</p>";    
+
+                push @bleat, "<p>$_ </p>\n";
             }
+
+                print "<div class=\"well\">";
+                $bleatresult = join '', @bleat;
+                print $bleatresult,"<p><br><p></div>";
+
+
+
 
         }
     } 
