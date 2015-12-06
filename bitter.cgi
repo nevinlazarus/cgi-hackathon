@@ -456,14 +456,11 @@ sub search_bleats($) {
                 next;
             } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
                 next;
-            }
-            
+            }            
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
-            seek F, 0, 0;
-            
+            seek F, 0, 0;            
             for (sort <F>) {
-                print "<p>$_</p>";
-                
+                print "<p>$_</p>";                
             }
             print "</div>";
                         if ($cookies{'auth'} eq "Freelancer") {        
@@ -810,7 +807,7 @@ sub print_bleats($) {
         seek $b, 0, 0;
         for (<$b>) {
 
-            print $_."<br>";
+            print "<p>".$_."</p>";
         }
         (my $bleat_reply_id = $bleat) =~ s/.*\///; #gets the bleat_id
         
