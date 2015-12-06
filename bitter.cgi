@@ -929,7 +929,8 @@ sub search_feed($) {
         }
         if ($print_complaint) { #if the file contains the search term
     
-            open(F, $complaint_file) or break;             
+            open(F, $complaint_file) or break;  
+                @bleat = ();           
                 for $line (<F>) {
                     if ($line =~ /^(KTP|name)/) {
                         if ($line =~ /name: (.*)/) {
@@ -938,7 +939,7 @@ sub search_feed($) {
                         next;
                 }
 
-                push @bleat, "<p>$_ </p>\n";
+                push @bleat, "<p>$line </p>\n";
             }
 
                 print "<div class=\"well\">";
