@@ -463,10 +463,9 @@ sub search_bleats($) {
             
             for (sort <F>) {
                 print "<p>$_</p>";
-                
             }
             print "</div>";
-                        if ($cookies{'auth'} eq "Freelancer") {        
+            if ($cookies{'auth'} eq "Freelancer") {        
                 print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
@@ -477,10 +476,9 @@ sub search_bleats($) {
     <input type="submit" name="Disapprove">
 </form>
 eof
+            }
+            close F;
         }
-        
-        close F;
-    }
     print "<p></p>";
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
@@ -749,7 +747,6 @@ Content-Type: text/html
         <input type="hidden" name="settings" value="1">
         <input type="submit" value="Account" class="btn">
         </form></li>
-        <li><a href="#">Link</a></li>        
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -757,19 +754,6 @@ Content-Type: text/html
         </div>
         <button type="submit" class="btn btn-default">Search</button>
       </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
