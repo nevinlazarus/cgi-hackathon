@@ -466,7 +466,7 @@ sub search_bleats($) {
                 
             }
             print "</div>";
-            if ($cookies{'auth'} eq "Freelancer") {        
+                        if ($cookies{'auth'} eq "Freelancer") {        
                 print <<eof;
 <form method="POST">
     <input type="hidden" name="approve" value=$id>
@@ -477,7 +477,6 @@ sub search_bleats($) {
     <input type="submit" name="Disapprove">
 </form>
 eof
-            }
         }
         
         close F;
@@ -694,7 +693,7 @@ sub print_bleats($) {
 		print "</div>";
     }
     
-
+    print "<p></p>";
     print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
@@ -732,15 +731,24 @@ Content-Type: text/html
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="http://cgi.cse.unsw.edu.au/~z5019263/cgi-hackathon/bitter.cgi">Korrum</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
+         <li><form method="POST" action="">
+        <input type="hidden" name="formpage" value="1">
+        <input type="submit" value="Post" class="btn">
+        </form></li>
+        <li><form method="POST" action="">
+        <input type="hidden" name="log" value="1">
+        <input type="submit" value="History" class="btn">
+        </form></li>
+        <li><form method="POST" action="">
+        <input type="hidden" name="settings" value="1">
+        <input type="submit" value="Account" class="btn">
+        </form></li>
         <li><a href="#">Link</a></li>        
       </ul>
       <form class="navbar-form navbar-left" role="search">
