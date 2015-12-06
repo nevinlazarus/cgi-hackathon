@@ -467,10 +467,15 @@ sub search_bleats($) {
                 next;
             } elsif ($bleat_index > (($PAGE_INDEX+1) * $NUM_RESULTS)) {
                 next;
-            }            
+            }
+            
             print "<div class='bleat' style=\"background-color:#F0F8FF\">";
-            seek F, 0, 0;            
-            print <F>;
+            seek F, 0, 0;
+            
+            for (sort <F>) {
+                print "<p>$_</p>";
+                
+            }
             print "</div>";
         }
         close F;
