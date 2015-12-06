@@ -877,11 +877,11 @@ sub search_feed($) {
                 print "</p>";    
             }
 
-            }
-        } 
-    }
-    
+        }
+    } 
 }
+    
+
 
 
 sub post {
