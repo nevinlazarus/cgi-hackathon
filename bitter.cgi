@@ -206,7 +206,7 @@ sub print_login {
         print "Confirmation successful! Please login.\n";
     }
     print <<END_OF_HTML;
-<br><br><br><br>
+<p></p><p></p><p></p><p></p>
 <div>
     <form method="POST" action="">
         <label>Username:</label>
@@ -269,7 +269,7 @@ sub send_account_confirm {
         print MAIL $message;
 
 	close(MAIL);
-	print "<br>Account created! Please check your email to confirm.<br>\n";
+	print "<p></p>Account created! Please check your email to confirm.<p></p>\n";
 
 }
 
@@ -478,7 +478,7 @@ eof
         
         close F;
     }
-    print "<br>";
+    print "<p></p>";
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?Search=$search_term&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 } 
@@ -538,7 +538,7 @@ sub search(){
         } else {
             print "nothing found!\n";
         }
-        print "</div><p><br>";
+        print "</div><p><p></p>";
         
         #check bleats
         print "<h4>Related Bleats</h4>";
@@ -643,7 +643,7 @@ sub search_results {
         }
 		$n++;
 	}
-    print "<br>";
+    print "<p></p>";
     print "<a href=?search_term=$name&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?search_term=$name&page_index=".($PAGE_INDEX+1).">Next page</a>" if ($user_index > ($PAGE_INDEX+1) * $NUM_RESULTS);	
     print "</div>";
@@ -653,7 +653,7 @@ sub print_link_to_user {
 	my $n = $_[0];
 	my $username = $_[1];
     print <<END_OF_HTML;
-    <a href="?n=$n"> $username </a><br>
+    <a href="?n=$n"> $username </a><p></p>
 END_OF_HTML
     return;
 	print <<END_OF_HTML;
@@ -815,7 +815,7 @@ sub print_bleats($) {
 		print "</div>";
     }
     
-    print "<br>";
+    print "<p></p>";
     print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
@@ -902,7 +902,7 @@ eof
 }
 sub print_logout {
     print <<END_OF_HTML;
-<br><br><br><br>    
+<p></p><p></p><p></p><p></p>    
 <div class='nav' >
     <form method="POST" action="">
         <input type="hidden" name="logout" value="1">
@@ -1022,10 +1022,10 @@ sub post {
     $id =~ s/[^\d]//g;
     return <<eof;
 <form method="POST">
-    <input style="display:inline-block" type="file" name="upload"> <br>
-    Description: <br><textarea default="Describe the incident" rows="3" columns="60" name="description"> </textarea>
-    <br>
-    Location/Organisation: <input type="text" name="location"> <br>
+    <input style="display:inline-block" type="file" name="upload"> <p></p>
+    Description: <p></p><textarea default="Describe the incident" rows="3" columns="60" name="description"> </textarea>
+    <p></p>
+    Location/Organisation: <input type="text" name="location"> <p></p>
     <input type="hidden" name="id" value=$id>
     <input type="hidden" name="post_write" value="True">
     <input type="submit" name="submit">
