@@ -815,7 +815,7 @@ sub print_bleats($) {
 		print "</div>";
     }
     
-    print "<p></p>";
+
     print "<a href=?&page_index=".($PAGE_INDEX-1).">Prev page</a>" if ($PAGE_INDEX);
     print "<a href=?page_index=".($PAGE_INDEX+1).">Next page</a>" if ($bleat_index > ($PAGE_INDEX+1) * $NUM_RESULTS);
 }
